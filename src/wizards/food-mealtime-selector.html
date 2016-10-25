@@ -1,0 +1,59 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add to mealtime</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="food-mealtime-selector">
+
+  <div class="app-action-button">
+
+    <ion-list radio-group>
+      <ion-list-header>
+        Select a mealtime
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Breakfast</ion-label>
+        <ion-radio checked="false" value="BREAKFAST" (click)="useMealtime('BREAKFAST')"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Lunch</ion-label>
+        <ion-radio checked="false" value="LUNCH" (click)="useMealtime('LUNCH')"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Dinner</ion-label>
+        <ion-radio checked="false" value="DINNER" (click)="useMealtime('DINNER')"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Snacks</ion-label>
+        <ion-radio checked="false" value="SNACKS" (click)="useMealtime('SNACKS')"></ion-radio>
+      </ion-item>
+
+    </ion-list>
+
+  </div>
+
+  <div class="app-action-button">
+    <button ion-button favorite round (click)="useSearch()">
+      <span>Search For Food</span>
+    </button>
+  </div>
+
+  <div class="app-action-button">
+    <button ion-button favorite round (click)="useBrowse()">
+      <span>Browse Previous Meals</span>
+    </button>
+  </div>
+
+  <div class="app-action-button">
+    <button ion-button favorite round (click)="useScan()">
+      <span>Scan a Bar-code</span>
+    </button>
+  </div>
+
+</ion-content>

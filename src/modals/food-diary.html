@@ -1,0 +1,146 @@
+<ion-header>
+  <ion-toolbar primary>
+    <ion-title><span>{{diaryService.currentDetails.dayName}}'s Food</span></ion-title>
+
+    <ion-buttons start>
+      <button ion-button (click)="close()">
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+        <div showWhen="ios">
+          Close
+        </div>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+  
+<ion-content>
+
+  <ion-list>
+
+    <ion-item-divider light>Breakfast</ion-item-divider>
+
+    <ion-item-sliding *ngFor="let item of diaryService.currentDetails.breakfastItems">
+
+      <ion-item>
+        <p>{{item.amountDescription}}</p>
+        <h2>{{item.foodDescription}}</h2>
+        <p>{{item.energyCaloriesPerEntry}} Calories</p>
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon> 
+          Delete
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+    <ion-item-divider light>Lunch</ion-item-divider>
+ 
+    <ion-item-sliding *ngFor="let item of diaryService.currentDetails.lunchItems">
+
+      <ion-item>
+        <p>{{item.amountDescription}}</p>
+        <h2>{{item.foodDescription}}</h2>
+        <p>{{item.energyCaloriesPerEntry}} Calories</p>
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon> 
+          Delete
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+    <ion-item-divider light>Dinner</ion-item-divider>
+
+    <ion-item-sliding *ngFor="let item of diaryService.currentDetails.dinnerItems">
+
+      <ion-item>
+        <p>{{item.amountDescription}}</p>
+        <h2>{{item.foodDescription}}</h2>
+        <p>{{item.energyCaloriesPerEntry}} Calories</p>
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon> 
+          Delete
+        </button>
+      </ion-item-options>
+      
+    </ion-item-sliding>
+
+    <ion-item-divider light>Snacks</ion-item-divider>
+
+    <ion-item-sliding *ngFor="let item of diaryService.currentDetails.snacksItems">
+
+      <ion-item>
+        <p>{{item.amountDescription}}</p>
+        <h2>{{item.foodDescription}}</h2>
+        <p>{{item.energyCaloriesPerEntry}} Calories</p>
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon> 
+          Delete
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+ 
+  </ion-list>
+
+</ion-content>
+
+
+
+
+
+
+
+
+
+<!--<ion-item-group>
+  <ion-item-divider light>Breakfast</ion-item-divider>
+
+
+
+  <ion-item *ngFor="let item of diaryService.currentDay.breakfastItems">
+    <p>{{item.amountDescription}}</p>
+    <h2>{{item.foodDescription}}</h2>
+    <p>{{item.energyCaloriesPerEntry}}</p>
+  </ion-item>
+
+
+
+
+
+
+  <ion-item-divider light>Lunch</ion-item-divider>
+
+  <ion-item *ngFor="let item of diaryService.currentDay.lunchItems">
+    {{item.amountDescription}} {{item.foodDescription}} {{item.energyCaloriesPerEntry}}
+  </ion-item>
+
+  <ion-item-divider light>Dinner</ion-item-divider>
+
+  <ion-item *ngFor="let item of diaryService.currentDay.dinnerItems">
+    {{item.amountDescription}} {{item.foodDescription}} {{item.energyCaloriesPerEntry}}
+  </ion-item>
+
+  <ion-item-divider light>Snacks</ion-item-divider>
+
+  <ion-item *ngFor="let item of diaryService.currentDay.snacksItems">
+    {{item.amountDescription}} {{item.foodDescription}} {{item.energyCaloriesPerEntry}}
+  </ion-item>
+
+</ion-item-gro
+up>-->

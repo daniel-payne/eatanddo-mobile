@@ -1,0 +1,69 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>FoodConfirmation</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="food-confirmation">
+  <div class="app-action-button">
+    <p>{{searchService.currentCalculation.amountDescription}}</p>
+    <p>{{searchService.currentCalculation.foodName}}</p>
+    <button ion-button favorite round (click)="useCalculation()">
+      <span>Add to {{diaryService.selectedMealtime}}</span>
+    </button>
+  </div>
+
+  <ion-row>
+    <ion-col width-33></ion-col>
+    <ion-col width-33>Per {{searchService.currentCalculation.amountDescription}}</ion-col>
+    <ion-col width-33>Per {{searchService.currentCalculation.baselineDescription}}</ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col width-33>Calories</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.energyKiloJoulesPerEntry    * 0.239006 | number:'.0-0' }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.energyKiloJoulesPerBaseline * 0.239006 | number:'.0-0' }}</ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col width-33>Protein</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.proteinGramsPerEntry     | number:'.1-1'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.proteinGramsPerBaseline  | number:'.1-1'   }}</ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col width-33>Carbohydrates</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.carbohydrateGramsPerEntry     | number:'.1-1'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.carbohydrateGramsPerBaseline  | number:'.1-1'   }}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-33>Sugar</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.sugarGramsPerEntry     | number:'.1-1'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.sugarGramsPerBaseline  | number:'.1-1'   }}</ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col width-33>Fat</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.fatGramsPerEntry     | number:'.1-1'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.fatGramsPerBaseline  | number:'.1-1'   }}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-33>Saturated Fat</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.saturatedFatGramsPerEntry     | number:'.1-1'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.saturatedFatGramsPerBaseline  | number:'.1-1'   }}</ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col width-33>Fibre</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.dietaryFibreGramsPerEntry     | number:'.1-1'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.dietaryFibreGramsPerBaseline  | number:'.1-1'   }}</ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col width-33>Salt</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.sodiumGramsPerEntry    * 2.5 | number:'.2-2'   }}</ion-col>
+    <ion-col width-33>{{searchService.currentCalculation.sodiumGramsPerBaseline * 2.5 | number:'.2-2'   }}</ion-col>
+  </ion-row>
+
+</ion-content>
