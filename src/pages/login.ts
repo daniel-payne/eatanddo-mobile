@@ -1,4 +1,4 @@
-import {NavController, Alert, Platform} from 'ionic-angular';
+import {NavController, AlertController , Platform} from 'ionic-angular';
 import {Component}                      from '@angular/core';
 
 import {SummaryPage}          from './summary';
@@ -17,7 +17,7 @@ export class LoginPage {
   private isRunningInBrowser:  boolean;
   private isCacheDisabled:     boolean;
 
-  constructor(private platform: Platform, private navController: NavController, private securityService: SecurityService, private diaryService: DiaryService) {
+  constructor(private platform: Platform, private navController: NavController, private alertController : AlertController, private securityService: SecurityService, private diaryService: DiaryService) {
     this.email           = 'daniel.payne@keldan.co.uk';
     this.isCacheDisabled = true;
 
@@ -71,7 +71,7 @@ export class LoginPage {
 
       this.password = '';
 
-      let alert = Alert.create({
+      let alert = this.alertController.create({
         title: 'Login Failed',
         subTitle: 'Please check your email and retry your password',
         buttons: ['Try Again']
