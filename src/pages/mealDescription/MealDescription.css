@@ -1,0 +1,4 @@
+.MealDescription {
+  width: (100% - 300px);
+  overflow: hidden;
+}
