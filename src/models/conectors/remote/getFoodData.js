@@ -1,6 +1,6 @@
 function getFoodMatches(foodID, amount, unit) {
   return fetch(
-    `http://localhost:1337/search/foodCalculations?foodID=${foodID}&amount=${amount}&unitName=${unit}`
+    `http://192.168.1.67:1337/search/foodCalculations?foodID=${foodID}&amount=${amount}&unitName=${unit}`
   )
     .then(response => {
       if (response.status !== 200) {

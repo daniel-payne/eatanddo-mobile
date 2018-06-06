@@ -1,29 +1,32 @@
 import { types, flow } from "mobx-state-tree";
 
-import MealItemMatch from "./MealItemMatch";
-import MealItemNutrition from "./MealItemNutrition";
+import Match from "./Match";
+import Food from "./Food";
 
-import getFoodMatches from "./conectors/getFoodMatches";
-import getFoodData from "./conectors/getFoodData";
+import getFoodMatches from "./conectors/remote/getFoodMatches";
+import getFoodData from "./conectors/remote/getFoodData";
 
 const MealItem = types
   .model({
     text: types.maybe(types.string),
-    additionalText: types.maybe(types.string),
 
-    replacmentText: types.maybe(types.string),
+    additionalText: types.maybe(types.string),
+    alternativeText: types.maybe(types.string),
 
     quantity: types.maybe(types.number),
     unit: types.maybe(types.string),
     foodName: types.maybe(types.string),
 
-    matches: types.optional(types.array(MealItemMatch), []),
-    selectedMatch: types.maybe(types.reference(MealItemMatch)),
+    matches: types.optional(types.array(Match), []),
 
-    selectedNutrition: types.maybe(MealItemNutrition),
+    selectedMatch: types.maybe(types.reference(Match)),
+    selectedFood: types.maybe(Food),
 
-    information: types.maybe(types.string),
-    status: types.maybe(types.string)
+    mealItemStatus: types.maybe(types.string),
+    mealItemInformation: types.maybe(types.string),
+
+    mealItemQuantityStatus: types.maybe(types.string),
+    mealItemSearchStatus: types.maybe(types.string)
   })
   .actions(self => ({
     clearMatches() {
@@ -38,8 +41,8 @@ const MealItem = types
       self.additionalText = `, ${quantity} ${unit}`;
 
       if (self.matches && self.matches.length > 0) {
-        self.status = "OK";
-        self.information =
+        self.mealItemStatus = "OK";
+        self.mealItemInformation =
           "Use '" + self.matches[0].foodName + "' for nutritional information";
       }
     }
@@ -47,26 +50,26 @@ const MealItem = types
   .actions(self => ({
     chooseMatch(match) {
       self.selectedMatch = match.foodId;
-      self.status = "OK";
-      self.information =
+      self.mealItemStatus = "OK";
+      self.mealItemInformation =
         "Use '" + match.foodName + "' for nutritional information";
-      self.selectedNutrition = undefined;
+      self.selectedFood = undefined;
     }
   }))
   .actions(self => ({
     updateMatches(matches) {
       if (matches && matches.length > 0) {
-        self.matches = matches.map(item => MealItemMatch.create(item));
+        self.matches = matches.map(item => Match.create(item));
 
         self.chooseMatch(matches[0]);
       } else {
-        self.status = "NO_MATCHES";
-        self.information = "Search for a food";
+        self.mealItemStatus = "NO_MATCHES";
+        self.mealItemInformation = "Search for a food";
       }
 
       if (!self.quantity || !self.unit) {
-        self.status = "NO_MEASUREMENT";
-        self.information = "How much does '" + self.text + "' weigh?";
+        self.mealItemStatus = "NO_MEASUREMENT";
+        self.mealItemInformation = "How much does '" + self.text + "' weigh?";
       }
     }
   }))
@@ -98,14 +101,14 @@ const MealItem = types
       self.state = "pending";
 
       try {
-        if (self.selectedMatch && !self.selectedNutrition && self.quantity) {
+        if (self.selectedMatch && !self.selectedFood && self.quantity) {
           const data = yield getFoodData(
             self.selectedMatch.foodId,
             self.quantity,
             self.unit
           );
 
-          self.selectedNutrition = MealItemNutrition.create(data);
+          self.selectedFood = Food.create(data);
 
           console.log(data);
         }

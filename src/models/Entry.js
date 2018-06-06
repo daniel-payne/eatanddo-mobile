@@ -2,86 +2,12 @@ import { types, flow } from "mobx-state-tree";
 
 import MealItem from "./MealItem";
 
-const TODAY = "TODAY";
-const YESTERDAY = "YESTERDAY";
-
-const BREAKFAST = "BREAKFAST";
-const LUNCH = "LUNCH";
-const DINNER = "DINNER";
-const SNACKS = "SNACKS";
-
-const REPLACMENTS = [
-  { word: "today's", replace: "", token: TODAY },
-  { word: "todays", replace: "", token: TODAY },
-  { word: "today", replace: "", token: TODAY },
-
-  { word: "yesterday's", replace: "", token: YESTERDAY },
-  { word: "yesterdays", replace: "", token: YESTERDAY },
-  { word: "yesterday", replace: "", token: YESTERDAY },
-
-  { word: "breakfast", replace: "", token: BREAKFAST },
-  { word: "lunch", replace: "", token: LUNCH },
-  { word: "dinner", replace: "", token: DINNER },
-  { word: "snacks", replace: "", token: SNACKS },
-  { word: "snack", replace: "", token: SNACKS },
-
-  { word: "one hundred ", replace: "100 " },
-
-  { word: "half ", replace: "0.5 " },
-  { word: "quater  ", replace: "0.25 " },
-  { word: "three quaters  ", replace: "0.75 " },
-
-  { word: "one ", replace: "1 " },
-  { word: "two ", replace: "2 " },
-  { word: "three ", replace: "3 " },
-  { word: "four ", replace: "4 " },
-  { word: "five ", replace: "5 " },
-  { word: "six ", replace: "6 " },
-  { word: "seven ", replace: "7 " },
-  { word: "eight ", replace: "8 " },
-  { word: "nine ", replace: "9 " },
-
-  { word: "ten ", replace: "10 " },
-  { word: "twenty ", replace: "20 " },
-  { word: "thirity ", replace: "30 " },
-  { word: "fourty ", replace: "40 " },
-  { word: "fifity ", replace: "50 " },
-  { word: "sixity ", replace: "60 " },
-  { word: "seventy ", replace: "70 " },
-  { word: "eighty ", replace: "80 " },
-  { word: "ninity ", replace: "90 " }
-];
-
-const UNIT_MATCHES = [
-  { word: "g", replace: "grams" },
-  { word: "gram", replace: "grams" },
-  { word: "grams", replace: "grams" }
-];
-
-const DAYS = 86400000;
-
-function extractDataFromString(input) {
-  let output = input;
-  let tokens = [];
-
-  REPLACMENTS.forEach(item => {
-    if (output.indexOf(item.word) > -1) {
-      output = output.replace(item.word, item.replace);
-
-      if (item.token) {
-        tokens = [...tokens, item.token];
-      }
-    }
-  });
-
-  output = output.trim();
-
-  return { output, tokens };
-}
-
-const Meal = types
+const Entry = types
   .model({
     mealDescription: types.maybe(types.string),
+
+    mealStatus: types.maybe(types.string),
+    mealInformation: types.maybe(types.string),
 
     mealDay: types.maybe(types.string),
     mealDayStatus: types.maybe(types.string),
@@ -91,22 +17,20 @@ const Meal = types
     mealTimeStatus: types.maybe(types.string),
     mealTimeInformation: types.maybe(types.string),
 
-    mealItems: types.optional(types.array(MealItem), []),
+    lines: types.optional(types.array(MealItem), [])
 
-    isNutritionComplete: types.optional(types.boolean, false),
-
-    energyKiloJoulesPerMeal: types.maybe(types.number),
-    proteinGramsPerMeal: types.maybe(types.number),
-    carbohydrateGramsPerMeal: types.maybe(types.number),
-    sugarGramsPerMeal: types.maybe(types.number),
-    starchGramsPerMeal: types.maybe(types.number),
-    fatGramsPerMeal: types.maybe(types.number),
-    saturatedFatGramsPerMeal: types.maybe(types.number),
-    cholesterolGramsPerMeal: types.maybe(types.number),
-    transFatGramsPerMeal: types.maybe(types.number),
-    dietaryFibreGramsPerMeal: types.maybe(types.number),
-    sodiumGramsPerMeal: types.maybe(types.number),
-    alcoholGramsPerMeal: types.maybe(types.number)
+    // energyKiloJoulesPerMeal: types.maybe(types.number),
+    // proteinGramsPerMeal: types.maybe(types.number),
+    // carbohydrateGramsPerMeal: types.maybe(types.number),
+    // sugarGramsPerMeal: types.maybe(types.number),
+    // starchGramsPerMeal: types.maybe(types.number),
+    // fatGramsPerMeal: types.maybe(types.number),
+    // saturatedFatGramsPerMeal: types.maybe(types.number),
+    // cholesterolGramsPerMeal: types.maybe(types.number),
+    // transFatGramsPerMeal: types.maybe(types.number),
+    // dietaryFibreGramsPerMeal: types.maybe(types.number),
+    // sodiumGramsPerMeal: types.maybe(types.number),
+    // alcoholGramsPerMeal: types.maybe(types.number)
   })
   .actions(self => ({
     updateMealDescription(mealDescription) {
@@ -123,7 +47,7 @@ const Meal = types
       self.mealTimeStatus = undefined;
       self.mealTimeInformation = undefined;
 
-      self.mealItems.clear();
+      self.lines.clear();
 
       if (data.tokens.indexOf(TODAY) > -1) {
         self.mealDay = TODAY;
@@ -230,7 +154,7 @@ const Meal = types
             foodName
           });
 
-          self.mealItems.push(newItem);
+          self.lines.push(newItem);
 
           console.log(newItem.toJSON());
 
@@ -259,8 +183,8 @@ const Meal = types
       self.state = "pending";
 
       try {
-        for (let i = 0; i < self.mealItems.length; i++) {
-          yield self.mealItems[i].fetchMatches();
+        for (let i = 0; i < self.lines.length; i++) {
+          yield self.lines[i].fetchMatches();
         }
 
         self.state = "done";
@@ -278,8 +202,8 @@ const Meal = types
       self.state = "pending";
 
       try {
-        for (let i = 0; i < self.mealItems.length; i++) {
-          yield self.mealItems[i].updateCalculations();
+        for (let i = 0; i < self.lines.length; i++) {
+          yield self.lines[i].updateCalculations();
         }
 
         self.isNutritionComplete = false;
@@ -297,58 +221,55 @@ const Meal = types
         self.sodiumGramsPerMeal = 0;
         self.alcoholGramsPerMeal = 0;
 
-        self.mealItems.forEach(item => {
-          if (item.selectedNutrition) {
-            if (item.selectedNutrition.energyKiloJoulesPerEntry) {
+        self.lines.forEach(item => {
+          if (item.selectedFood) {
+            if (item.selectedFood.energyKiloJoulesPerEntry) {
               self.energyKiloJoulesPerMeal +=
-                item.selectedNutrition.energyKiloJoulesPerEntry;
+                item.selectedFood.energyKiloJoulesPerEntry;
 
               self.energyKiloCaloriesPerMeal = Math.round(
                 self.energyKiloJoulesPerMeal * 0.239006
               );
             }
-            if (item.selectedNutrition.proteinGramsPerEntry) {
+            if (item.selectedFood.proteinGramsPerEntry) {
               self.proteinGramsPerMeal +=
-                item.selectedNutrition.proteinGramsPerEntry;
+                item.selectedFood.proteinGramsPerEntry;
             }
-            if (item.selectedNutrition.carbohydrateGramsPerEntry) {
+            if (item.selectedFood.carbohydrateGramsPerEntry) {
               self.carbohydrateGramsPerMeal +=
-                item.selectedNutrition.carbohydrateGramsPerEntry;
+                item.selectedFood.carbohydrateGramsPerEntry;
             }
-            if (item.selectedNutrition.sugarGramsPerEntry) {
-              self.sugarGramsPerMeal +=
-                item.selectedNutrition.sugarGramsPerEntry;
+            if (item.selectedFood.sugarGramsPerEntry) {
+              self.sugarGramsPerMeal += item.selectedFood.sugarGramsPerEntry;
             }
-            if (item.selectedNutrition.starchGramsPerEntry) {
-              self.starchGramsPerMeal +=
-                item.selectedNutrition.starchGramsPerEntry;
+            if (item.selectedFood.starchGramsPerEntry) {
+              self.starchGramsPerMeal += item.selectedFood.starchGramsPerEntry;
             }
-            if (item.selectedNutrition.fatGramsPerEntry) {
-              self.fatGramsPerMeal += item.selectedNutrition.fatGramsPerEntry;
+            if (item.selectedFood.fatGramsPerEntry) {
+              self.fatGramsPerMeal += item.selectedFood.fatGramsPerEntry;
             }
-            if (item.selectedNutrition.saturatedFatGramsPerEntry) {
+            if (item.selectedFood.saturatedFatGramsPerEntry) {
               self.saturatedFatGramsPerMeal +=
-                item.selectedNutrition.saturatedFatGramsPerEntry;
+                item.selectedFood.saturatedFatGramsPerEntry;
             }
-            if (item.selectedNutrition.cholesterolGramsPerEntry) {
+            if (item.selectedFood.cholesterolGramsPerEntry) {
               self.cholesterolGramsPerMeal +=
-                item.selectedNutrition.cholesterolGramsPerEntry;
+                item.selectedFood.cholesterolGramsPerEntry;
             }
-            if (item.selectedNutrition.transFatGramsPerEntry) {
+            if (item.selectedFood.transFatGramsPerEntry) {
               self.transFatGramsPerMeal +=
-                item.selectedNutrition.transFatGramsPerEntry;
+                item.selectedFood.transFatGramsPerEntry;
             }
-            if (item.selectedNutrition.dietaryFibreGramsPerEntry) {
+            if (item.selectedFood.dietaryFibreGramsPerEntry) {
               self.dietaryFibreGramsPerMeal +=
-                item.selectedNutrition.dietaryFibreGramsPerEntry;
+                item.selectedFood.dietaryFibreGramsPerEntry;
             }
-            if (item.selectedNutrition.sodiumGramsPerEntry) {
-              self.sodiumGramsPerMeal +=
-                item.selectedNutrition.sodiumGramsPerEntry;
+            if (item.selectedFood.sodiumGramsPerEntry) {
+              self.sodiumGramsPerMeal += item.selectedFood.sodiumGramsPerEntry;
             }
-            if (item.selectedNutrition.alcoholGramsPerEntry) {
+            if (item.selectedFood.alcoholGramsPerEntry) {
               self.alcoholGramsPerMeal +=
-                item.selectedNutrition.alcoholGramsPerEntry;
+                item.selectedFood.alcoholGramsPerEntry;
             }
           }
         });
@@ -369,4 +290,81 @@ const Meal = types
     })
   }));
 
-export default Meal;
+export default Entry;
+
+const TODAY = "TODAY";
+const YESTERDAY = "YESTERDAY";
+
+const BREAKFAST = "BREAKFAST";
+const LUNCH = "LUNCH";
+const DINNER = "DINNER";
+const SNACKS = "SNACKS";
+
+const REPLACMENTS = [
+  { word: "today's", replace: "", token: TODAY },
+  { word: "todays", replace: "", token: TODAY },
+  { word: "today", replace: "", token: TODAY },
+
+  { word: "yesterday's", replace: "", token: YESTERDAY },
+  { word: "yesterdays", replace: "", token: YESTERDAY },
+  { word: "yesterday", replace: "", token: YESTERDAY },
+
+  { word: "breakfast", replace: "", token: BREAKFAST },
+  { word: "lunch", replace: "", token: LUNCH },
+  { word: "dinner", replace: "", token: DINNER },
+  { word: "snacks", replace: "", token: SNACKS },
+  { word: "snack", replace: "", token: SNACKS },
+
+  { word: "one hundred ", replace: "100 " },
+
+  { word: "half ", replace: "0.5 " },
+  { word: "quater  ", replace: "0.25 " },
+  { word: "three quaters  ", replace: "0.75 " },
+
+  { word: "one ", replace: "1 " },
+  { word: "two ", replace: "2 " },
+  { word: "three ", replace: "3 " },
+  { word: "four ", replace: "4 " },
+  { word: "five ", replace: "5 " },
+  { word: "six ", replace: "6 " },
+  { word: "seven ", replace: "7 " },
+  { word: "eight ", replace: "8 " },
+  { word: "nine ", replace: "9 " },
+
+  { word: "ten ", replace: "10 " },
+  { word: "twenty ", replace: "20 " },
+  { word: "thirity ", replace: "30 " },
+  { word: "fourty ", replace: "40 " },
+  { word: "fifity ", replace: "50 " },
+  { word: "sixity ", replace: "60 " },
+  { word: "seventy ", replace: "70 " },
+  { word: "eighty ", replace: "80 " },
+  { word: "ninity ", replace: "90 " }
+];
+
+const UNIT_MATCHES = [
+  { word: "g", replace: "grams" },
+  { word: "gram", replace: "grams" },
+  { word: "grams", replace: "grams" }
+];
+
+const DAYS = 86400000;
+
+function extractDataFromString(input) {
+  let output = input;
+  let tokens = [];
+
+  REPLACMENTS.forEach(item => {
+    if (output.indexOf(item.word) > -1) {
+      output = output.replace(item.word, item.replace);
+
+      if (item.token) {
+        tokens = [...tokens, item.token];
+      }
+    }
+  });
+
+  output = output.trim();
+
+  return { output, tokens };
+}

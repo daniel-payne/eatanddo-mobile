@@ -1,6 +1,6 @@
 import { types } from "mobx-state-tree";
 
-const MealItemMatch = types.model({
+const Food = types.model({
   foodId: types.identifier(types.number),
   foodName: types.string,
 
@@ -34,4 +34,4 @@ const MealItemMatch = types.model({
   alcoholGramsPerBaseline: types.maybe(types.number)
 });
 
-export default MealItemMatch;
+export default Food;

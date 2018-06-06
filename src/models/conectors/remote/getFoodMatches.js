@@ -1,5 +1,5 @@
 function getFoodMatches(searchFor) {
-  return fetch(`http://localhost:1337/search/foodnames?match=${searchFor}`)
+  return fetch(`http://192.168.1.67:1337/search/foodnames?match=${searchFor}`)
     .then(response => {
       if (response.status !== 200) {
         console.log("ERROR /search/foodnames: " + response.status);

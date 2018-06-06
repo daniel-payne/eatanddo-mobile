@@ -6,16 +6,16 @@ import { observer } from "mobx-react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-import "./MealDescription.css";
+import "./EntryDescription.css";
 
-class MealDescription extends Component {
+class EntryDescription extends Component {
   static propTypes = {
-    meal: PropTypes.object
+    entry: PropTypes.object
   };
   static getDerivedStateFromProps = (props, state) => {
     if (!state.mealDescription) {
       return {
-        mealDescription: props.meal.mealDescription
+        mealDescription: props.entry ? props.entry.mealDescription : undefined
       };
     }
     return null;
@@ -29,7 +29,7 @@ class MealDescription extends Component {
     });
   };
   handelDone = () => {
-    this.props.meal.updateMealDescription(this.state.mealDescription);
+    this.props.entry.updateMealDescription(this.state.mealDescription);
 
     this.setState({ mealDescription: null });
 
@@ -37,7 +37,7 @@ class MealDescription extends Component {
   };
   render() {
     return (
-      <div className="MealDescription">
+      <div className="EntryDescription">
         <form noValidate autoComplete="off">
           <TextField
             id="multiline-flexible"
@@ -56,4 +56,4 @@ class MealDescription extends Component {
   }
 }
 
-export default withRouter(observer(MealDescription));
+export default withRouter(observer(EntryDescription));

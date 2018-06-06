@@ -21,8 +21,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuIcon from "@material-ui/icons/Menu";
 import MicrophoneIcon from "@material-ui/icons/Mic";
 
-import MealDescription from "./pages/mealDescription/MealDescription";
-import MealSummary from "./pages/mealSummary/MealSummary";
+import EntryDescription from "./pages/entryDescription/EntryDescription";
+import EntrySummary from "./pages/entrySummary/EntrySummary";
 
 import "./App.css";
 
@@ -72,7 +72,7 @@ class App extends Component {
   };
 
   render() {
-    const { meal } = this.props.store;
+    const { entry } = this.props.store;
     return (
       <div className="App" style={{ height: "100%" }}>
         <Router>
@@ -149,17 +149,23 @@ class App extends Component {
             <Switch>
               <Route
                 path="/meal-description"
-                render={() => <MealDescription meal={meal} />}
+                render={() => <EntryDescription entry={entry} />}
               />
 
               <Route
                 path="/meal-summary"
                 render={() => (
-                  <Route path="/" render={() => <MealSummary meal={meal} />} />
+                  <Route
+                    path="/"
+                    render={() => <EntrySummary entry={entry} />}
+                  />
                 )}
               />
 
-              <Route path="/" render={() => <MealDescription meal={meal} />} />
+              <Route
+                path="/"
+                render={() => <EntryDescription entry={entry} />}
+              />
             </Switch>
           </React.Fragment>
         </Router>

@@ -1,19 +1,6 @@
-// foodId
-// :
-// "2753"
-// foodName
-// :
-// "eggs, turkey, whole, raw"
-// hasNutritionWeightInformation
-// :
-// "true"
-// sourceName
-// :
-// "cofid phe"
-
 import { types } from "mobx-state-tree";
 
-const MealItemMatch = types.model({
+const Match = types.model({
   foodId: types.identifier(types.number),
   foodName: types.string,
 
@@ -27,4 +14,4 @@ const MealItemMatch = types.model({
   hasNutritionPortionInformation: types.optional(types.boolean, false)
 });
 
-export default MealItemMatch;
+export default Match;
