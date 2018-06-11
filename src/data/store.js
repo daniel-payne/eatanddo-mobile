@@ -4,6 +4,7 @@ import makeInspectable from "mobx-devtools-mst";
 import Entry from "./models/Entry";
 import Food from "./models/Food";
 import Search from "./models/Search";
+import Display from "./models/Display";
 
 import getFoodNames from "./conectors/remote/getFoodNames";
 import getFood from "./conectors/remote/getFood";
@@ -14,10 +15,9 @@ const Store = types
 
     // days: types.optional(types.map(Day), []),
     foods: types.optional(types.array(Food), []),
-    searches: types.optional(types.array(Search), [])
+    searches: types.optional(types.array(Search), []),
 
-    //selectedDay: types.reference(Day)
-    //selectedMeal: types.reference(Meal)
+    display: types.optional(Display, {})
   })
   .actions(self => ({
     validateEntry: flow(function* validateEntry(entry) {

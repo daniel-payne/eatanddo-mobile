@@ -17,7 +17,7 @@ const MealDisplay = props => {
   const mealInformation = Math.round(entry.energyCaloriesPerEntry);
 
   return (
-    <ListItem button>
+    <ListItem button onClick={props.onSelect ? props.onSelect : null}>
       <Avatar>M</Avatar>
       <ListItemText primary="Calories" secondary="Select a mealtime" />
       <ListItemIcon>
@@ -34,7 +34,9 @@ const MealDisplay = props => {
 };
 
 MealDisplay.propTypes = {
-  entry: PropTypes.object.isRequired
+  entry: PropTypes.object.isRequired,
+
+  onSelect: PropTypes.func.isRequired
 };
 
 export default observer(MealDisplay);

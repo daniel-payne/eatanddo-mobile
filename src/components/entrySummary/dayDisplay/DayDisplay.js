@@ -13,7 +13,7 @@ const DayDisplay = props => {
   const dayInformation = new Date().toDateString();
 
   return (
-    <ListItem button>
+    <ListItem button onClick={props.onSelect ? props.onSelect : null}>
       <Avatar>D</Avatar>
       <ListItemText primary={dayTitle} secondary={dayInformation} />
     </ListItem>
@@ -21,7 +21,9 @@ const DayDisplay = props => {
 };
 
 DayDisplay.propTypes = {
-  entry: PropTypes.object.isRequired
+  entry: PropTypes.object.isRequired,
+
+  onSelect: PropTypes.func.isRequired
 };
 
 export default observer(DayDisplay);

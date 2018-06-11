@@ -22,6 +22,8 @@ import WeightDialog from "./weightDialog/WeightDialog";
 import MatchesDialog from "./matchesDialog/MatchesDialog";
 import ChoiceDialog from "./choiceDialog/ChoiceDialog";
 import ScratchPadDialog from "./scratchPadDialog/ScratchPadDialog";
+import DayDialog from "./dayDialog/DayDialog";
+import MealDialog from "./mealDialog/MealDialog";
 
 import DayDisplay from "./dayDisplay/DayDisplay";
 import MealDisplay from "./mealDisplay/MealDisplay";
@@ -37,7 +39,9 @@ class EntrySummary extends Component {
     entry: PropTypes.object
   };
   state = {
-    isChoiceelectorOpen: false,
+    isChoiceSelectorOpen: false,
+    isDaySelectorOpen: false,
+    isMealSelectorOpen: false,
     isAmountSelectorOpen: false,
     isScratchPadOpen: false,
     isMatchSelectorOpen: false,
@@ -49,21 +53,27 @@ class EntrySummary extends Component {
     this.props.history.push(`meal-description`);
   };
   handleOpen = name => () => {
-    this.setState({ [name]: true, isChoiceelectorOpen: false });
+    this.setState({ [name]: true, isChoiceSelectorOpen: false });
   };
   handleClose = name => () => {
     this.setState({ [name]: false });
   };
-  handelSelect = line => () => {
+  handelDaySelect = () => {
+    this.setState({ isDaySelectorOpen: true });
+  };
+  handelMealSelect = () => {
+    this.setState({ isMealSelectorOpen: true });
+  };
+  handelLineSelect = line => () => {
     if (!line.quantity || line.unit === "") {
       this.setState({ selectedLine: line, isAmountSelectorOpen: true });
       // } else if (line.additionalText) {
-      //   this.setState({ selectedLine: line, isChoiceelectorOpen: true });
+      //   this.setState({ selectedLine: line, isChoiceSelectorOpen: true });
       // } else {
       //   this.setState({ selectedLine: line, isMatchSelectorOpen: true });
       // }
     } else {
-      this.setState({ selectedLine: line, isChoiceelectorOpen: true });
+      this.setState({ selectedLine: line, isChoiceSelectorOpen: true });
     }
   };
   render() {
@@ -98,8 +108,8 @@ class EntrySummary extends Component {
         </Button>
 
         <List>
-          <DayDisplay entry={entry} />
-          <MealDisplay entry={entry} />
+          <DayDisplay entry={entry} onSelect={this.handelDaySelect} />
+          <MealDisplay entry={entry} onSelect={this.handelMealSelect} />
           <Divider />
 
           <LineCreator entry={entry} />
@@ -115,7 +125,7 @@ class EntrySummary extends Component {
             }
 
             return (
-              <ListItem button key={i} onClick={this.handelSelect(item)}>
+              <ListItem button key={i} onClick={this.handelLineSelect(item)}>
                 <Avatar>{i + 1}</Avatar>
 
                 <ListItemText
@@ -160,7 +170,7 @@ class EntrySummary extends Component {
         />
 
         <ChoiceDialog
-          isOpen={this.state.isChoiceelectorOpen}
+          isOpen={this.state.isChoiceSelectorOpen}
           onClose={this.handleClose}
           onOpenChoice={this.handleOpen}
         />
@@ -168,6 +178,18 @@ class EntrySummary extends Component {
         <ScratchPadDialog
           isOpen={this.state.isScratchPadOpen}
           onClose={this.handleClose("isScratchPadOpen")}
+          entry={this.props.entry}
+        />
+
+        <DayDialog
+          isOpen={this.state.isDaySelectorOpen}
+          onClose={this.handleClose("isDaySelectorOpen")}
+          entry={this.props.entry}
+        />
+
+        <MealDialog
+          isOpen={this.state.isMealSelectorOpen}
+          onClose={this.handleClose("isMealSelectorOpen")}
           entry={this.props.entry}
         />
       </div>

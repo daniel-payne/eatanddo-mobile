@@ -14,11 +14,11 @@ const LineCreator = props => {
     <ListItem>
       <TextField
         // id="full-width"
-        // label="Label"
+        // label="Add item to food diary"
         InputLabelProps={{
           shrink: true
         }}
-        // placeholder="20 grams of cheddar cheese"
+        placeholder="Add item to food diary"
         helperText="Type an amount and name, eg 20 grams of cheddar cheese"
         fullWidth
         margin="normal"
