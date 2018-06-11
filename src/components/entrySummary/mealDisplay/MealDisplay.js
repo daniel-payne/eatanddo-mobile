@@ -14,16 +14,26 @@ import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/
 
 const MealDisplay = props => {
   const { entry } = props;
-  const mealInformation = Math.round(entry.energyCaloriesPerEntry);
+
+  let mealTitle;
+  let mealInformation;
+  let mealData;
+
+  if (entry && entry.mealTime && entry.mealTime.length > 0) {
+    mealTitle = entry.mealTime;
+    mealData = Math.round(entry.energyCaloriesPerEntry);
+  } else {
+    mealInformation = "Select a mealtime";
+  }
 
   return (
     <ListItem button onClick={props.onSelect ? props.onSelect : null}>
       <Avatar>M</Avatar>
-      <ListItemText primary="Calories" secondary="Select a mealtime" />
+      <ListItemText primary={mealTitle} secondary={mealInformation} />
       <ListItemIcon>
         {entry.calculationStatus === ENTRY_CALCULATION_COMPLETE ? (
           <Avatar style={{ backgroundColor: "white", color: "black" }}>
-            {mealInformation}
+            {mealData}
           </Avatar>
         ) : (
           <ErrorIcon />

@@ -105,7 +105,7 @@ const Entry = types
       self.description = description;
 
       self.dayDate = data.dayDate;
-      self.mealTime = data.time;
+      self.mealTime = data.mealTime;
       self.lines = data.lines;
 
       store.validateEntry(self);
@@ -116,11 +116,14 @@ const Entry = types
 
       self.description = self.description + "\n" + description;
 
-      self.dayDate = data.day || self.dayDate;
-      self.mealTime = data.time || self.mealTime;
+      self.dayDate = data.dayDate || self.dayDate;
+      self.mealTime = data.mealTime || self.mealTime;
       self.lines = [...self.lines, data.lines];
 
       store.validateEntry(self);
+    },
+    updateDay(dayDate) {
+      self.dayDate = dayDate;
     }
   }));
 

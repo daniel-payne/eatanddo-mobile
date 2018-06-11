@@ -84,9 +84,9 @@ function extractEntryData(input) {
   output = output.trim();
 
   if (tokens.indexOf(TODAY) > -1) {
-    dayDate = now.toDateString();
+    dayDate = now.toISOString();
   } else if (tokens.indexOf(YESTERDAY) > -1) {
-    dayDate = new Date(now - 1 * DAYS).toDateString();
+    dayDate = new Date(now - 1 * DAYS).toISOString();
   }
 
   if (tokens.indexOf(BREAKFAST) > -1) {
@@ -177,8 +177,6 @@ function extractLinesFromData(input) {
       };
 
       output.push(newItem);
-
-      // console.log(newItem);
 
       text = item;
       quantity = "";
