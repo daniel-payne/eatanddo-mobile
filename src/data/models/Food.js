@@ -1,0 +1,71 @@
+import { types } from "mobx-state-tree";
+
+const Food = types.model({
+  foodId: types.identifier(types.number),
+  foodName: types.string,
+
+  // brandName: types.maybe(types.string),
+  sourceName: types.maybe(types.string),
+  // servingUnitName: types.maybe(types.string),
+
+  energyCaloriesPer100g: types.maybe(types.number),
+  energyKiloJoulesPer100g: types.maybe(types.number),
+  proteinGramsPer100g: types.maybe(types.number),
+  carbohydrateGramsPer100g: types.maybe(types.number),
+  sugarGramsPer100g: types.maybe(types.number),
+  starchGramsPer100g: types.maybe(types.number),
+  fatGramsPer100g: types.maybe(types.number),
+  saturatedFatGramsPer100g: types.maybe(types.number),
+  unsaturatedFatGramsPer100g: types.maybe(types.number),
+  cholesterolGramsPer100g: types.maybe(types.number),
+  transFatGramsPer100g: types.maybe(types.number),
+  dietaryFibreGramsPer100g: types.maybe(types.number),
+  solubleFibreGramsPer100g: types.maybe(types.number),
+  insolubleFibreGramsPer100g: types.maybe(types.number),
+  saltGramsPer100g: types.maybe(types.number),
+  sodiumGramsPer100g: types.maybe(types.number),
+  alcoholGramsPer100g: types.maybe(types.number)
+
+  // energyCaloriesPer100ml: types.maybe(types.number),
+  // energyKiloJoulesPer100ml: types.maybe(types.number),
+  // proteinGramsPer100ml: types.maybe(types.number),
+  // carbohydrateGramsPer100ml: types.maybe(types.number),
+  // sugarGramsPer100ml: types.maybe(types.number),
+  // starchGramsPer100ml: types.maybe(types.number),
+  // fatGramsPer100ml: types.maybe(types.number),
+  // saturatedFatGramsPer100ml: types.maybe(types.number),
+  // unsaturatedFatGramsPer100ml: types.maybe(types.number),
+  // cholesterolGramsPer100ml: types.maybe(types.number),
+  // transFatGramsPer100ml: types.maybe(types.number),
+  // dietaryFibreGramsPer100ml: types.maybe(types.number),
+  // solubleFibreGramsPer100ml: types.maybe(types.number),
+  // insolubleFibreGramsPer100ml: types.maybe(types.number),
+  // saltGramsPer100ml: types.maybe(types.number),
+  // sodiumGramsPer100ml: types.maybe(types.number),
+  // alcoholGramsPer100ml: types.maybe(types.number),
+
+  // energyCaloriesPerPortion: types.maybe(types.number),
+  // energyKiloJoulesPerPortion: types.maybe(types.number),
+  // proteinGramsPerPortion: types.maybe(types.number),
+  // carbohydrateGramsPerPortion: types.maybe(types.number),
+  // sugarGramsPerPortion: types.maybe(types.number),
+  // starchGramsPerPortion: types.maybe(types.number),
+  // fatGramsPerPortion: types.maybe(types.number),
+  // saturatedFatGramsPerPortion: types.maybe(types.number),
+  // unsaturatedFatGramsPerPortion: types.maybe(types.number),
+  // cholesterolGramsPerPortion: types.maybe(types.number),
+  // transFatGramsPerPortion: types.maybe(types.number),
+  // dietaryFibreGramsPerPortion: types.maybe(types.number),
+  // solubleFibreGramsPerPortion: types.maybe(types.number),
+  // insolubleFibreGramsPerPortion: types.maybe(types.number),
+  // saltGramsPerPortion: types.maybe(types.number),
+  // sodiumGramsPerPortion: types.maybe(types.number),
+  // alcoholGramsPerPortion: types.maybe(types.number),
+
+  // hasNutritionWeightInformation: types.maybe(types.boolean),
+  // hasNutritionVolumeInformation: types.maybe(types.boolean),
+  // hasNutritionServingInformation: types.maybe(types.boolean),
+  // hasNutritionPortionInformation: types.maybe(types.boolean)
+});
+
+export default Food;

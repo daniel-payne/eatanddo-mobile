@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { observer } from "mobx-react";
+// import PropTypes from "prop-types";
+import { observer, inject } from "mobx-react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,41 +17,21 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItemText from "@material-ui/core/ListItemText";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import MicrophoneIcon from "@material-ui/icons/Mic";
 
-import EntryDescription from "./pages/entryDescription/EntryDescription";
-import EntrySummary from "./pages/entrySummary/EntrySummary";
+import EntrySummary from "../entrySummary/EntrySummary";
 
-import "./App.css";
+import Title from "./title/Title";
 
-class Title extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  };
-  render() {
-    const { router } = this.context;
+import "./Application.css";
 
-    const pathName = router.route.location.pathname
-      .replace("/", "")
-      .toUpperCase();
-
-    let title;
-
-    switch (pathName) {
-      case "SCRATCHPAD":
-        title = "Scratch Pad";
-        break;
-      default:
-        title = "EatAndDo";
-    }
-
-    return <div>{title}</div>;
-  }
-}
-
-class App extends Component {
+class Application extends Component {
   state = {
     mealDescription:
       "today's breakfast two eggs 35grams of cheese 30 grams of tinned tuna 50g of asparagus half a tomato",
@@ -72,7 +52,8 @@ class App extends Component {
   };
 
   render() {
-    const { entry } = this.props.store;
+    const { store } = this.props;
+    const { entry } = store;
     return (
       <div className="App" style={{ height: "100%" }}>
         <Router>
@@ -82,8 +63,9 @@ class App extends Component {
               <Toolbar>
                 <IconButton
                   style={{
-                    marginLeft: -12,
-                    marginRight: 20
+                    marginRLeft: -12,
+                    marginRight: -48,
+                    zIndex: 99
                   }}
                   color="inherit"
                   aria-label="Menu"
@@ -100,12 +82,72 @@ class App extends Component {
                 >
                   <Title />
                 </Typography>
-                <Button color="inherit" onClick={this.openLogin}>
+                {/* <Button color="inherit" onClick={this.openLogin}>
                   Login
-                </Button>
+                </Button> */}
               </Toolbar>
-              <Drawer open={this.state.isDrawOpen} onClose={this.closeDraw}>
-                <div style={{ width: 300 }}>xxx</div>
+              <Drawer
+                anchor="left"
+                open={this.state.isDrawOpen}
+                onClose={this.closeDraw}
+              >
+                <List component="nav">
+                  <ListSubheader disableSticky={true} color="primary">
+                    Display Nutrition
+                  </ListSubheader>
+                  <ListItem button>
+                    <ListItemText primary="Calories" />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Protine" />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Carbohydrate" />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Sugar" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Starch" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Fat" />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Saturated Fat" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Unsaturated Fat" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Cholesterol" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Trans Fat" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Fibre" />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Soluble Fibre" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Insoluble Fibre" inset={true} />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="Salt" />
+                  </ListItem>
+
+                  <ListSubheader disableSticky={true} color="primary">
+                    Information source
+                  </ListSubheader>
+                  <ListItem button>
+                    <ListItemText primary="UK Database" />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText primary="US Database" />
+                  </ListItem>
+                </List>
               </Drawer>
             </AppBar>
             <Dialog
@@ -148,12 +190,7 @@ class App extends Component {
             </Dialog>
             <Switch>
               <Route
-                path="/meal-description"
-                render={() => <EntryDescription entry={entry} />}
-              />
-
-              <Route
-                path="/meal-summary"
+                path="/entry-summary"
                 render={() => (
                   <Route
                     path="/"
@@ -162,10 +199,7 @@ class App extends Component {
                 )}
               />
 
-              <Route
-                path="/"
-                render={() => <EntryDescription entry={entry} />}
-              />
+              <Route path="/" render={() => <EntrySummary entry={entry} />} />
             </Switch>
           </React.Fragment>
         </Router>
@@ -189,4 +223,4 @@ class App extends Component {
   }
 }
 
-export default observer(App);
+export default inject("store")(observer(Application));
