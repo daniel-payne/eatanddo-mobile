@@ -68,7 +68,7 @@ function extractEntryData(input) {
   const now = new Date();
 
   let dayDate;
-  let mealTime;
+  let mealtime;
   let lines = [];
 
   REPLACMENTS.forEach(item => {
@@ -90,18 +90,18 @@ function extractEntryData(input) {
   }
 
   if (tokens.indexOf(BREAKFAST) > -1) {
-    mealTime = BREAKFAST_TIME;
+    mealtime = BREAKFAST_TIME;
   } else if (tokens.indexOf(LUNCH) > -1) {
-    mealTime = LUNCH_TIME;
+    mealtime = LUNCH_TIME;
   } else if (tokens.indexOf(DINNER) > -1) {
-    mealTime = DINNER_TIME;
+    mealtime = DINNER_TIME;
   } else if (tokens.indexOf(SNACKS) > -1) {
-    mealTime = SNACKS_TIME;
+    mealtime = SNACKS_TIME;
   }
 
   lines = extractLinesFromData(output);
 
-  return { dayDate, mealTime, lines };
+  return { dayDate, mealtime, lines };
 }
 
 function extractLinesFromData(input) {

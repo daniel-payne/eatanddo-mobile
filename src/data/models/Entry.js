@@ -12,7 +12,7 @@ const Entry = types
     description: types.maybe(types.string),
 
     dayDate: types.maybe(types.string),
-    mealTime: types.maybe(types.string),
+    mealtime: types.maybe(types.string),
 
     lines: types.optional(types.array(EntryLine), [])
   })
@@ -105,7 +105,7 @@ const Entry = types
       self.description = description;
 
       self.dayDate = data.dayDate;
-      self.mealTime = data.mealTime;
+      self.mealtime = data.mealtime;
       self.lines = data.lines;
 
       store.validateEntry(self);
@@ -117,13 +117,16 @@ const Entry = types
       self.description = self.description + "\n" + description;
 
       self.dayDate = data.dayDate || self.dayDate;
-      self.mealTime = data.mealTime || self.mealTime;
+      self.mealtime = data.mealtime || self.mealtime;
       self.lines = [...self.lines, data.lines];
 
       store.validateEntry(self);
     },
     updateDay(dayDate) {
       self.dayDate = dayDate;
+    },
+    updateMealtime(mealtime) {
+      self.mealtime = mealtime;
     }
   }));
 

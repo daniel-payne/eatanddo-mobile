@@ -29,7 +29,11 @@ class MealDialog extends Component {
   handelDone = () => {
     this.props.onClose();
   };
-  handelUpdate = () => {
+  handelUpdate = selection => () => {
+    const { entry } = this.props;
+
+    entry.updateMealtime(selection);
+
     this.handelDone();
   };
   render = () => {
@@ -72,19 +76,19 @@ class MealDialog extends Component {
         </AppBar>
 
         <List>
-          <ListItem button onClick={props.onSelect ? props.onSelect : null}>
+          <ListItem button onClick={this.handelUpdate("Breakfast")}>
             <Avatar>B</Avatar>
             <ListItemText primary="Breakfast" secondary={null} />
           </ListItem>
-          <ListItem button onClick={props.onSelect ? props.onSelect : null}>
+          <ListItem button onClick={this.handelUpdate("Lunch")}>
             <Avatar>L</Avatar>
             <ListItemText primary="Lunch" secondary={null} />
           </ListItem>
-          <ListItem button onClick={props.onSelect ? props.onSelect : null}>
+          <ListItem button onClick={this.handelUpdate("Dinner")}>
             <Avatar>D</Avatar>
             <ListItemText primary="Dinner" secondary={null} />
           </ListItem>
-          <ListItem button onClick={props.onSelect ? props.onSelect : null}>
+          <ListItem button onClick={this.handelUpdate("Snacks")}>
             <Avatar>S</Avatar>
             <ListItemText primary="Snacks" secondary={null} />
           </ListItem>

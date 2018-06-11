@@ -8,7 +8,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import ErrorIcon from "@material-ui/icons/Error";
-// import DoneIcon from "@material-ui/icons/Done";
 
 import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/Entry";
 
@@ -19,8 +18,8 @@ const MealDisplay = props => {
   let mealInformation;
   let mealData;
 
-  if (entry && entry.mealTime && entry.mealTime.length > 0) {
-    mealTitle = entry.mealTime;
+  if (entry && entry.mealtime && entry.mealtime.length > 0) {
+    mealTitle = entry.mealtime;
     mealData = Math.round(entry.energyCaloriesPerEntry);
   } else {
     mealInformation = "Select a mealtime";
