@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
-import Drawer from "@material-ui/core/Drawer";
+
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,16 +17,13 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import MicrophoneIcon from "@material-ui/icons/Mic";
 
 import EntrySummary from "../entrySummary/EntrySummary";
 
+import SettingsDrawer from "./settingsDrawer/SettingsDrawer";
 import Title from "./title/Title";
 
 import "./Application.css";
@@ -53,7 +50,7 @@ class Application extends Component {
 
   render() {
     const { store } = this.props;
-    const { entry } = store;
+    const { entry, display } = store;
     return (
       <div className="App" style={{ height: "100%" }}>
         <Router>
@@ -86,69 +83,11 @@ class Application extends Component {
                   Login
                 </Button> */}
               </Toolbar>
-              <Drawer
-                anchor="left"
-                open={this.state.isDrawOpen}
+              <SettingsDrawer
+                isOpen={this.state.isDrawOpen}
                 onClose={this.closeDraw}
-              >
-                <List component="nav">
-                  <ListSubheader disableSticky={true} color="primary">
-                    Display Nutrition
-                  </ListSubheader>
-                  <ListItem button>
-                    <ListItemText primary="Calories" />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Protine" />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Carbohydrate" />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Sugar" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Starch" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Fat" />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Saturated Fat" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Unsaturated Fat" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Cholesterol" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Trans Fat" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Fibre" />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Soluble Fibre" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Insoluble Fibre" inset={true} />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="Salt" />
-                  </ListItem>
-
-                  <ListSubheader disableSticky={true} color="primary">
-                    Information source
-                  </ListSubheader>
-                  <ListItem button>
-                    <ListItemText primary="UK Database" />
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemText primary="US Database" />
-                  </ListItem>
-                </List>
-              </Drawer>
+                display={display}
+              />
             </AppBar>
             <Dialog
               open={this.state.isLoginOpen}
