@@ -78,15 +78,6 @@ class MatchesDialog extends Component {
     this.props.onClose();
   };
   render = () => {
-    // const foodTitle = this.props.mealItem ? this.props.mealItem.text : null;
-    // const matches =
-    //   this.props.mealItem && this.props.mealItem.search
-    //     ? this.props.mealItem.search.matches
-    //     : [];
-    // const isAllMatches =
-    //   this.props.mealItem && this.props.mealItem.search
-    //     ? this.props.mealItem.search.isAllMatches
-    //     : false;
     const { mealItem } = this.props;
     const { text, search } = mealItem || {};
     const { matches, isAllMatches } = search || {};
@@ -131,16 +122,11 @@ class MatchesDialog extends Component {
 
         <ListItem>
           <TextField
-            // id="full-width"
             value={this.state.searchFor}
             style={{ marginLeft: 54 }}
-            // ref={this.inputReference}
-            // label="Add item to food diary"
             InputLabelProps={{
               shrink: true
             }}
-            // placeholder="Add item to food diary"
-            // helperText="Type an amount and name, eg 20 grams of cheddar cheese"
             fullWidth
             margin="normal"
             onKeyPress={this.handleKeyPress}
@@ -150,26 +136,6 @@ class MatchesDialog extends Component {
             <SearchIcon />
           </IconButton>
         </ListItem>
-
-        {/* <Input
-          id="text-searchfor"
-          type="text"
-          value={this.state.searchFor}
-          onChange={this.handleChange("searchFor")}
-          style={{ width: "100%", padding: 24 }}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Toggle password visibility"
-                onClick={this.handelSearch}
-              >
-                <Visibility />
-              </IconButton>
-            </InputAdornment>
-          }
-        /> */}
-        {/* </FormControl>
-        </form> */}
 
         {matches && (
           <List>

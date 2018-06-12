@@ -104,10 +104,14 @@ const EntryLine = types
   })
   .actions(self => ({
     updateWeight(quantity, unit) {
+      if (self.quantity > 0 && self.unit.length > 0) {
+        self.text = `${self.quantity} ${self.unit} of ${self.foodName}`;
+      } else {
+        self.additionalText = `, ${quantity} ${unit}`;
+      }
+
       self.quantity = quantity;
       self.unit = unit;
-
-      self.additionalText = `, ${quantity} ${unit}`;
     },
     updateSearch(alternativeFoodName) {
       self.alternativeFoodName = alternativeFoodName;

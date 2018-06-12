@@ -19,7 +19,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 const ChoiceDialog = props => {
   return (
-    <Dialog open={props.isOpen} onClose={props.onClose("isChoiceelectorOpen")}>
+    <Dialog
+      open={props.isOpen}
+      onBackdropClick={props.onClose}
+      onEscapeKeyDown={props.onClose}
+    >
       <DialogTitle id="simple-dialog-title">
         Which Do you want to change
       </DialogTitle>

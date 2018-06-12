@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import PropTypes from "prop-types";
 // import { withRouter } from "react-router";
 import { observer } from "mobx-react";
+import SpeechRecognition from "react-speech-recognition";
 
 // import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
@@ -17,21 +18,65 @@ import Typography from "@material-ui/core/Typography";
 // import BackspaceIcon from "@material-ui/icons/Backspace";
 // import ClearAllIcon from "@material-ui/icons/ClearAll";
 
-const transition = props => <Slide direction="up" {...props} />;
+// var recognition = new (window.SpeechRecognition ||
+//   window.webkitSpeechRecognition ||
+//   window.mozSpeechRecognition ||
+//   window.msSpeechRecognition)();
+
+// recognition.lang = "en-US";
+// recognition.interimResults = true;
+// recognition.continuous = true;
+// // recognition.maxAlternatives = 5;
+// // recognition.start();
+
+// recognition.onerror = function(event) {
+//   alert(event.error);
+// };
 
 class ScratchPadDialog extends Component {
+  handelEntered = () => {
+    this.props.resetTranscript();
+    this.props.startListening();
+  };
+  handelExited = () => {
+    this.props.abortListening();
+  };
   handelDone = () => {
     this.props.onClose();
   };
   handelUpdate = () => {
-    this.props.entry.addEntryDescription(
-      "today's breakfast two eggs 35 grams of cheese 30g of tinned tuna half a tomato and 75g of fresh asparagus"
-    );
+    const { finalTranscript } = this.props;
+
+    let displayArray = finalTranscript.split(" ");
+
+    displayArray = Array.from(new Set(displayArray));
+
+    const displayText = displayArray.join(" ");
+
+    this.props.entry.addEntryDescription(displayText);
 
     this.handelDone();
   };
   render = () => {
     const { props } = this;
+    const { finalTranscript } = props;
+
+    const warningText =
+      this.props.browserSupportsSpeechRecognition === true
+        ? "The microphone is listing, describe your meal, then Say 'DONE' when finished"
+        : "This browser can't listen to you, please use the 'Add item' box on the main screen or view the page with Chrome browser";
+
+    let showWarning = true;
+    let displayArray = finalTranscript.split(" ");
+
+    displayArray = Array.from(new Set(displayArray));
+
+    const displayText = displayArray.join(" ");
+
+    if (finalTranscript.length > 0) {
+      showWarning = false;
+    }
+
     return (
       <Dialog
         className="ScratchPadDialog"
@@ -39,6 +84,8 @@ class ScratchPadDialog extends Component {
         onClose={props.onClose}
         fullScreen
         TransitionComponent={transition}
+        onEntered={this.handelEntered}
+        onExited={this.handelExited}
       >
         <AppBar
           style={{
@@ -75,10 +122,7 @@ class ScratchPadDialog extends Component {
             margin: "0 auto"
           }}
         >
-          <div>
-            The microphone is listing, describe your meal, then Say 'DONE' when
-            finished
-          </div>
+          {showWarning === true ? warningText : displayText}
         </Typography>
         <Button color="inherit" onClick={this.handelUpdate}>
           Done
@@ -88,4 +132,14 @@ class ScratchPadDialog extends Component {
   };
 }
 
-export default observer(ScratchPadDialog);
+const transition = props => <Slide direction="up" {...props} />;
+
+const speechRecognitionOptions = {
+  autoStart: false,
+  continuous: true,
+  lang: "en-US"
+};
+
+export default SpeechRecognition(speechRecognitionOptions)(
+  observer(ScratchPadDialog)
+);

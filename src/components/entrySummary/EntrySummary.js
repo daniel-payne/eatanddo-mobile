@@ -130,7 +130,7 @@ class EntrySummary extends Component {
 
         <ChoiceDialog
           isOpen={this.state.isChoiceSelectorOpen}
-          onClose={this.handleClose}
+          onClose={this.handleClose("isChoiceSelectorOpen")}
           onOpenChoice={this.handleOpen}
           onDeleteChoice={this.handlDelete}
         />
