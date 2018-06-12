@@ -34,7 +34,7 @@ const EntryLine = types
   .views(self => {
     const calculateTotalFor = name => {
       if (self.quantity && self.selectedFood) {
-        return (self.quantity * self.selectedFood[name]) / 100;
+        return (self.quantity * (self.selectedFood[name] || 0)) / 100;
       }
     };
 
@@ -49,6 +49,10 @@ const EntryLine = types
         return status;
       },
 
+      nutritionPerLine(nutrition = "energyCalories") {
+        return self[`${nutrition}PerLine`];
+      },
+
       get energyCaloriesPerLine() {
         return calculateTotalFor("energyCaloriesPer100g");
       },
@@ -56,49 +60,49 @@ const EntryLine = types
         return calculateTotalFor("energyKiloJoulesPer100g");
       },
       get proteinGramsPerLine() {
-        return calculateTotalFor("proteinPer100g");
+        return calculateTotalFor("proteinGramsPer100g");
       },
       get carbohydrateGramsPerLine() {
-        return calculateTotalFor("carbohydratePer100g");
+        return calculateTotalFor("carbohydrateGramsPer100g");
       },
       get sugarGramsPerLine() {
-        return calculateTotalFor("sugarPer100g");
+        return calculateTotalFor("sugarGramsPer100g");
       },
       get starchGramsPerLine() {
-        return calculateTotalFor("starchPer100g");
+        return calculateTotalFor("starchGramsPer100g");
       },
       get fatGramsPerLine() {
-        return calculateTotalFor("fatPer100g");
+        return calculateTotalFor("fatGramsPer100g");
       },
       get saturatedFatGramsPerLine() {
-        return calculateTotalFor("saturatedFatPer100g");
+        return calculateTotalFor("saturatedFatGramsPer100g");
       },
       get unsaturatedFatGramsPerLine() {
-        return calculateTotalFor("unsaturatedFatPer100g");
+        return calculateTotalFor("unsaturatedFatGramsPer100g");
       },
       get cholesterolGramsPerLine() {
         return calculateTotalFor("cholesterolGramsPer100g");
       },
       get transFatGramsPerLine() {
-        return calculateTotalFor("transFatPer100g");
+        return calculateTotalFor("transFatGramsPer100g");
       },
       get dietaryFibreGramsPerLine() {
-        return calculateTotalFor("dietaryFibrePer100g");
+        return calculateTotalFor("dietaryFibreGramsPer100g");
       },
       get solubleFibreGramsPerLine() {
-        return calculateTotalFor("solubleFibrePer100g");
+        return calculateTotalFor("solubleFibreGramsPer100g");
       },
       get insolubleFibreGramsPerLine() {
-        return calculateTotalFor("insolubleFibrePer100g");
+        return calculateTotalFor("insolubleFibreGramsPer100g");
       },
       get saltGramsPerLine() {
-        return calculateTotalFor("saltPer100g");
+        return calculateTotalFor("saltGramsPer100g");
       },
       get sodiumGramsPerLine() {
-        return calculateTotalFor("sodiumPer100g");
+        return calculateTotalFor("sodiumGramsPer100g");
       },
       get alcoholGramsPerLine() {
-        return calculateTotalFor("alcoholPer100g");
+        return calculateTotalFor("alcoholGramsPer100g");
       }
     };
   })

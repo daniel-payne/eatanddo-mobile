@@ -133,12 +133,17 @@ class Application extends Component {
                 render={() => (
                   <Route
                     path="/"
-                    render={() => <EntrySummary entry={entry} />}
+                    render={() => (
+                      <EntrySummary entry={entry} display={display} />
+                    )}
                   />
                 )}
               />
 
-              <Route path="/" render={() => <EntrySummary entry={entry} />} />
+              <Route
+                path="/"
+                render={() => <EntrySummary entry={entry} display={display} />}
+              />
             </Switch>
           </React.Fragment>
         </Router>

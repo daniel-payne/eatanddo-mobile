@@ -10,12 +10,30 @@ import ErrorIcon from "@material-ui/icons/Error";
 import { CALCULATION_COMPLETE as LINE_CALCULATION_COMPLETE } from "data/models/EntryLine";
 
 const LineDisplay = props => {
-  const { item, no, onSelect } = props;
+  const { item, no, onSelect, selectedNutrition } = props;
 
   let statusMessage = item.selectedFood ? item.selectedFood.foodName : null;
 
   if (!item.quantity || !item.unit) {
     statusMessage = `How much does ${item.text} weigh`;
+  }
+
+  let result = item.nutritionPerLine(selectedNutrition);
+
+  if (result && !Number.isNaN(result)) {
+    if (
+      selectedNutrition === "energyCalories" ||
+      selectedNutrition === "energyKiloJoules"
+    ) {
+      result = result.toFixed(0);
+    } else if (
+      selectedNutrition === "saltGrams" ||
+      selectedNutrition === "sodiumGrams"
+    ) {
+      result = result.toFixed(2);
+    } else {
+      result = result.toFixed(1);
+    }
   }
 
   return (
@@ -31,7 +49,7 @@ const LineDisplay = props => {
       <ListItemIcon>
         {item.calculationStatus === LINE_CALCULATION_COMPLETE ? (
           <Avatar style={{ backgroundColor: "white", color: "black" }}>
-            {Math.round(item.energyCaloriesPerLine)}
+            {result}
           </Avatar>
         ) : (
           <ErrorIcon />

@@ -12,7 +12,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/Entry";
 
 const MealDisplay = props => {
-  const { entry } = props;
+  const { entry, selectedNutrition } = props;
 
   let mealTitle;
   let mealInformation;
@@ -20,7 +20,25 @@ const MealDisplay = props => {
 
   if (entry && entry.mealtime && entry.mealtime.length > 0) {
     mealTitle = entry.mealtime;
-    mealData = Math.round(entry.energyCaloriesPerEntry);
+    let result = entry.nutritionPerEntry(selectedNutrition);
+
+    if (result && !Number.isNaN(result)) {
+      if (
+        selectedNutrition === "energyCalories" ||
+        selectedNutrition === "energyKiloJoules"
+      ) {
+        result = result.toFixed(0);
+      } else if (
+        selectedNutrition === "saltGrams" ||
+        selectedNutrition === "sodiumGrams"
+      ) {
+        result = result.toFixed(2);
+      } else {
+        result = result.toFixed(1);
+      }
+    }
+
+    mealData = result;
   } else {
     mealInformation = "Select a mealtime";
   }

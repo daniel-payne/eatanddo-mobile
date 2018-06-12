@@ -26,7 +26,8 @@ import "./EntrySummary.css";
 
 class EntrySummary extends Component {
   static propTypes = {
-    entry: PropTypes.object
+    entry: PropTypes.object,
+    display: PropTypes.object
   };
   state = {
     isChoiceSelectorOpen: false,
@@ -64,7 +65,8 @@ class EntrySummary extends Component {
     }
   };
   render() {
-    const { entry } = this.props;
+    const { entry, display } = this.props;
+    const { selectedNutrition } = display || {};
 
     if (!entry) {
       return null;
@@ -93,7 +95,11 @@ class EntrySummary extends Component {
 
         <List>
           <DayDisplay entry={entry} onSelect={this.handelDaySelect} />
-          <MealDisplay entry={entry} onSelect={this.handelMealSelect} />
+          <MealDisplay
+            entry={entry}
+            onSelect={this.handelMealSelect}
+            selectedNutrition={selectedNutrition}
+          />
           <Divider />
 
           <LineCreator entry={entry} />
@@ -105,6 +111,7 @@ class EntrySummary extends Component {
               no={i}
               onSelect={this.handelLineSelect(item)}
               key={i}
+              selectedNutrition={selectedNutrition}
             />
           ))}
         </List>

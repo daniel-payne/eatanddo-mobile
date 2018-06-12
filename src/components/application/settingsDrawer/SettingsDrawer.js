@@ -52,22 +52,22 @@ const SettingsOption = props => {
 
 const NUTRITION_OPTIONS = [
   { label: "Calories", value: CALORIES },
-  { label: "KiloJoules", value: KILOJOULES },
+  // { label: "KiloJoules", value: KILOJOULES },
   { label: "Protine", value: PROTEIN },
   { label: "Carbohydrate", value: CARBOHYDRATE },
   { label: "Sugar", value: SUGAR, isSecondary: true },
-  { label: "Starch", value: STARCH, isSecondary: true },
+  // { label: "Starch", value: STARCH, isSecondary: true },
   { label: "Fat", value: FAT },
   { label: "Saturated Fat", value: SATURATEDFAT, isSecondary: true },
-  { label: "Unsaturated Fat", value: UNSATURATEDFAT, isSecondary: true },
-  { label: "Cholesterol", value: CHOLESTEROL, isSecondary: true },
-  { label: "Trans Fat", value: TRANSFAT, isSecondary: true },
-  { label: "Fibre", value: DIETARYFIBRE },
-  { label: "Soluble Fibre", value: SOLUBLEFIBRE, isSecondary: true },
-  { label: "Insoluble Fibre", value: INSOLUBLEFIBRE, isSecondary: true },
-  { label: "Salt", value: SALT },
-  { label: "Sodium", value: SODIUM, isSecondary: true },
-  { label: "Alcohol", value: ALCOHOL }
+  // { label: "Unsaturated Fat", value: UNSATURATEDFAT, isSecondary: true },
+  // { label: "Cholesterol", value: CHOLESTEROL, isSecondary: true },
+  // { label: "Trans Fat", value: TRANSFAT, isSecondary: true },
+  // { label: "Fibre", value: DIETARYFIBRE },
+  // { label: "Soluble Fibre", value: SOLUBLEFIBRE, isSecondary: true },
+  // { label: "Insoluble Fibre", value: INSOLUBLEFIBRE, isSecondary: true },
+  { label: "Salt", value: SALT }
+  // { label: "Sodium", value: SODIUM, isSecondary: true },
+  // { label: "Alcohol", value: ALCOHOL }
 ];
 
 const SOURCE_OPTIONS = [

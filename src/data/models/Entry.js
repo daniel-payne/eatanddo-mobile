@@ -42,6 +42,10 @@ const Entry = types
         }, CALCULATION_COMPLETE);
       },
 
+      nutritionPerEntry(nutrition = "energyCalories") {
+        return self[`${nutrition}PerEntry`];
+      },
+
       get energyCaloriesPerEntry() {
         return calculateSummaryFor(self.lines, "energyCaloriesPer100g");
       },
@@ -49,49 +53,49 @@ const Entry = types
         return calculateSummaryFor(self.lines, "energyKiloJoulesPer100g");
       },
       get proteinGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "proteinPer100g");
+        return calculateSummaryFor(self.lines, "proteinGramsPer100g");
       },
       get carbohydrateGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "carbohydratePer100g");
+        return calculateSummaryFor(self.lines, "carbohydrateGramsPer100g");
       },
       get sugarGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "sugarPer100g");
+        return calculateSummaryFor(self.lines, "sugarGramsPer100g");
       },
       get starchGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "starchPer100g");
+        return calculateSummaryFor(self.lines, "starchGramsPer100g");
       },
       get fatGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "fatPer100g");
+        return calculateSummaryFor(self.lines, "fatGramsPer100g");
       },
       get saturatedFatGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "saturatedFatPer100g");
+        return calculateSummaryFor(self.lines, "saturatedFatGramsPer100g");
       },
       get unsaturatedFatGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "unsaturatedFatPer100g");
+        return calculateSummaryFor(self.lines, "unsaturatedFatGramsPer100g");
       },
       get cholesterolGramsPerEntry() {
         return calculateSummaryFor(self.lines, "cholesterolGramsPer100g");
       },
       get transFatGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "transFatPer100g");
+        return calculateSummaryFor(self.lines, "transFatGramsPer100g");
       },
       get dietaryFibreGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "dietaryFibrePer100g");
+        return calculateSummaryFor(self.lines, "dietaryFibreGramsPer100g");
       },
       get solubleFibreGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "solubleFibrePer100g");
+        return calculateSummaryFor(self.lines, "solubleFibreGramsPer100g");
       },
       get insolubleFibreGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "insolubleFibrePer100g");
+        return calculateSummaryFor(self.lines, "insolubleFibreGramsPer100g");
       },
       get saltGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "saltPer100g");
+        return calculateSummaryFor(self.lines, "saltGramsPer100g");
       },
       get sodiumGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "sodiumPer100g");
+        return calculateSummaryFor(self.lines, "sodiumGramsPer100g");
       },
       get alcoholGramsPerEntry() {
-        return calculateSummaryFor(self.lines, "alcoholPer100g");
+        return calculateSummaryFor(self.lines, "alcoholGramsPer100g");
       }
     };
   })
