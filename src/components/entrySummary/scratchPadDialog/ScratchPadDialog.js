@@ -24,7 +24,7 @@ class ScratchPadDialog extends Component {
     this.props.onClose();
   };
   handelUpdate = () => {
-    this.props.entry.updateEntryDescription(
+    this.props.entry.addEntryDescription(
       "today's breakfast two eggs 35 grams of cheese 30g of tinned tuna half a tomato and 75g of fresh asparagus"
     );
 

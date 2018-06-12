@@ -29,8 +29,11 @@ const ChoiceDialog = props => {
         </Button>
         <br />
         <Button onClick={props.onOpenChoice("isMatchSelectorOpen")}>
-          Source of Nutritional Information
+          Nutritional Information
         </Button>
+      </div>
+      <div style={{ textAlign: "center", padding: 8 }}>
+        <Button onClick={props.onDeleteChoice}>Delete Item</Button>
       </div>
     </Dialog>
   );

@@ -111,7 +111,7 @@ const EntryLine = types
     },
     updateSearch(alternativeFoodName) {
       self.alternativeFoodName = alternativeFoodName;
-
+      self.search = null;
       self.chooseMatch();
     },
     chooseMatch: flow(function* chooseMatch(match) {

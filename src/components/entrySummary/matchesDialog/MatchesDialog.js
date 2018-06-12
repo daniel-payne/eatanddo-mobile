@@ -19,18 +19,18 @@ import Avatar from "@material-ui/core/Avatar";
 import withWidth from "@material-ui/core/withWidth";
 
 import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
+// import Input from "@material-ui/core/Input";
 // import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
+// import InputAdornment from "@material-ui/core/InputAdornment";
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import FormControl from "@material-ui/core/FormControl";
-// import TextField from "@material-ui/core/TextField";
-// import MenuItem from '@material-ui/core/MenuItem';
-import Visibility from "@material-ui/icons/Search";
+import TextField from "@material-ui/core/TextField";
+// import ListItem from "@material-ui/core/ListItem";
+// import Visibility from "@material-ui/icons/Search";
 // import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 // import BackspaceIcon from "@material-ui/icons/Backspace";
-// import ClearAllIcon from "@material-ui/icons/ClearAll";
+import SearchIcon from "@material-ui/icons/Search";
 
 import "./MatchesDialog.css";
 
@@ -38,13 +38,22 @@ class MatchesDialog extends Component {
   state = {
     searchFor: ""
   };
+  static getDerivedStateFromProps = (props, state) => {
+    if (!state.searchFor) {
+      return {
+        searchFor: props.mealItem ? props.mealItem.foodName : undefined
+      };
+    }
+    return null;
+  };
+
   transition = props => {
     return <Slide direction="up" {...props} />;
   };
   handleSelect = item => () => {
     this.props.mealItem.chooseMatch(item);
 
-    this.onDone();
+    this.handelDone();
   };
   handleChange = name => event => {
     this.setState({
@@ -55,6 +64,15 @@ class MatchesDialog extends Component {
     if (this.props.mealItem && this.props.mealItem.search) {
       this.props.mealItem.search.loadAllMatches();
     }
+  };
+
+  handleKeyPress = event => {
+    if (event.key === "Enter") {
+      this.handleSearch();
+    }
+  };
+  handleSearch = () => {
+    this.props.mealItem.updateSearch(this.state.searchFor);
   };
   handelDone = () => {
     this.props.onClose();
@@ -111,26 +129,45 @@ class MatchesDialog extends Component {
           {`Which nutritional information to use for '${text}' `}
         </Typography>
 
-        {/* <form noValidate autoComplete="off" style={{ padding: 24 }}>
-          <FormControl style={{ width: "100%", padding: 24 }}>
-            <InputLabel htmlFor="adornment-searchfor">Search For</InputLabel> */}
-        <Input
-          id="adornment-searchfor"
+        <ListItem>
+          <TextField
+            // id="full-width"
+            value={this.state.searchFor}
+            style={{ marginLeft: 54 }}
+            // ref={this.inputReference}
+            // label="Add item to food diary"
+            InputLabelProps={{
+              shrink: true
+            }}
+            // placeholder="Add item to food diary"
+            // helperText="Type an amount and name, eg 20 grams of cheddar cheese"
+            fullWidth
+            margin="normal"
+            onKeyPress={this.handleKeyPress}
+            onChange={this.handleChange("searchFor")}
+          />
+          <IconButton onClick={this.handleSearch}>
+            <SearchIcon />
+          </IconButton>
+        </ListItem>
+
+        {/* <Input
+          id="text-searchfor"
           type="text"
-          value={this.state.password}
-          onChange={this.handleChange("password")}
+          value={this.state.searchFor}
+          onChange={this.handleChange("searchFor")}
           style={{ width: "100%", padding: 24 }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
                 aria-label="Toggle password visibility"
-                onClick={null}
+                onClick={this.handelSearch}
               >
                 <Visibility />
               </IconButton>
             </InputAdornment>
           }
-        />
+        /> */}
         {/* </FormControl>
         </form> */}
 

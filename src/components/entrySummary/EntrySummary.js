@@ -46,6 +46,10 @@ class EntrySummary extends Component {
   handleClose = name => () => {
     this.setState({ [name]: false });
   };
+  handlDelete = () => {
+    this.props.entry.removeLine(this.state.selectedLine);
+    this.setState({ selectedLine: null, isChoiceSelectorOpen: false });
+  };
   handelDaySelect = () => {
     this.setState({ isDaySelectorOpen: true });
   };
@@ -128,6 +132,7 @@ class EntrySummary extends Component {
           isOpen={this.state.isChoiceSelectorOpen}
           onClose={this.handleClose}
           onOpenChoice={this.handleOpen}
+          onDeleteChoice={this.handlDelete}
         />
 
         <ScratchPadDialog
