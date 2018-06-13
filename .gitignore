@@ -6,8 +6,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production /build include for azure
+
 
 # misc
 .DS_Store
