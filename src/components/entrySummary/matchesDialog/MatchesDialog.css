@@ -1,0 +1,17 @@
+.MatchesDialog .title_bar {
+  position: relative;
+}
+
+.MatchesDialog .title_bar .title__container {
+  flex: 1;
+}
+
+.MatchesDialog .title_bar .title__text {
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.MatchesDialog .title_bar .title__information {
+  padding: 16px;
+  margin: 0 auto;
+}

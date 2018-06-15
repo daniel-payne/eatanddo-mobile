@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { observer } from "mobx-react";
 
-// import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
@@ -13,28 +12,23 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-// import TextField from "@material-ui/core/TextField";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import withWidth from "@material-ui/core/withWidth";
-
 import IconButton from "@material-ui/core/IconButton";
-// import Input from "@material-ui/core/Input";
-// import InputLabel from "@material-ui/core/InputLabel";
-// import InputAdornment from "@material-ui/core/InputAdornment";
-// import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
-// import ListItem from "@material-ui/core/ListItem";
-// import Visibility from "@material-ui/icons/Search";
-// import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-// import BackspaceIcon from "@material-ui/icons/Backspace";
 import SearchIcon from "@material-ui/icons/Search";
 
 import "./MatchesDialog.css";
 
 class MatchesDialog extends Component {
+  static propTypes = {
+    entry: PropTypes.object.isRequired,
+
+    onClose: PropTypes.func.isRequired
+  };
+
   state = {
     searchFor: ""
   };
@@ -47,25 +41,26 @@ class MatchesDialog extends Component {
     return null;
   };
 
-  transition = props => {
+  Transition = props => {
     return <Slide direction="up" {...props} />;
   };
-  handleSelect = item => () => {
-    this.props.mealItem.chooseMatch(item);
 
-    this.handelDone();
-  };
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
     });
+  };
+
+  handleSelect = item => () => {
+    this.props.mealItem.chooseMatch(item);
+
+    this.handelDone();
   };
   handleShowMore = () => {
     if (this.props.mealItem && this.props.mealItem.search) {
       this.props.mealItem.search.loadAllMatches();
     }
   };
-
   handleKeyPress = event => {
     if (event.key === "Enter") {
       this.handleSearch();
@@ -77,53 +72,38 @@ class MatchesDialog extends Component {
   handelDone = () => {
     this.props.onClose();
   };
+
   render = () => {
-    const { mealItem } = this.props;
+    const { Transition } = this;
+    const { mealItem, isOpen, onClose } = this.props;
     const { text, search } = mealItem || {};
     const { matches, isAllMatches } = search || {};
 
     return (
       <Dialog
-        fullScreen
-        open={this.props.isOpen}
-        onClose={this.props.onClose}
-        TransitionComponent={this.transition}
         className="MatchesDialog"
+        fullScreen
+        open={isOpen}
+        onClose={onClose}
+        TransitionComponent={Transition}
       >
-        <AppBar
-          style={{
-            position: "relative"
-          }}
-        >
+        <AppBar className="title_bar">
           <Toolbar>
-            <div
-              variant="title"
-              color="inherit"
-              style={{
-                flex: 1
-              }}
-            />
+            <div className="title__container" variant="title" color="inherit" />
 
-            <Button color="inherit" onClick={this.props.onClose}>
+            <Button color="inherit" onClick={onClose}>
               Not Sure
             </Button>
           </Toolbar>
         </AppBar>
-        <Typography
-          variant="title"
-          color="inherit"
-          style={{
-            padding: 16,
-            margin: "0 auto"
-          }}
-        >
+        <Typography variant="title" color="inherit" className="title__text">
           {`Which nutritional information to use for '${text}' `}
         </Typography>
 
         <ListItem>
           <TextField
+            className="title__search"
             value={this.state.searchFor}
-            style={{ marginLeft: 54 }}
             InputLabelProps={{
               shrink: true
             }}

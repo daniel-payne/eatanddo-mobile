@@ -1,37 +1,15 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
-// import { withRouter } from "react-router";
 import { observer } from "mobx-react";
 import SpeechRecognition from "react-speech-recognition";
 
-// import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-// import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-// import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-// import withWidth from "@material-ui/core/withWidth";
 
-// import BackspaceIcon from "@material-ui/icons/Backspace";
-// import ClearAllIcon from "@material-ui/icons/ClearAll";
-
-// var recognition = new (window.SpeechRecognition ||
-//   window.webkitSpeechRecognition ||
-//   window.mozSpeechRecognition ||
-//   window.msSpeechRecognition)();
-
-// recognition.lang = "en-US";
-// recognition.interimResults = true;
-// recognition.continuous = true;
-// // recognition.maxAlternatives = 5;
-// // recognition.start();
-
-// recognition.onerror = function(event) {
-//   alert(event.error);
-// };
+import "./ScratchPadDialog.css";
 
 class ScratchPadDialog extends Component {
   handelEntered = () => {
@@ -57,9 +35,12 @@ class ScratchPadDialog extends Component {
 
     this.handelDone();
   };
+
+  Transition = props => <Slide direction="up" {...props} />;
+
   render = () => {
-    const { props } = this;
-    const { finalTranscript } = props;
+    const { Transition, handelEntered, handelExited } = this;
+    const { finalTranscript, isOpen, onClose } = this.props;
 
     const warningText =
       this.props.browserSupportsSpeechRecognition === true
@@ -80,33 +61,20 @@ class ScratchPadDialog extends Component {
     return (
       <Dialog
         className="ScratchPadDialog"
-        open={props.isOpen}
-        onClose={props.onClose}
+        open={isOpen}
+        onClose={onClose}
         fullScreen
-        TransitionComponent={transition}
-        onEntered={this.handelEntered}
-        onExited={this.handelExited}
+        TransitionComponent={Transition}
+        onEntered={handelEntered}
+        onExited={handelExited}
       >
-        <AppBar
-          style={{
-            position: "relative"
-          }}
-        >
+        <AppBar className="title_bar">
           <Toolbar>
-            <div
-              variant="title"
-              color="inherit"
-              style={{
-                flex: 1
-              }}
-            >
+            <div className="title__container" variant="title" color="inherit">
               <Typography
+                className="title__text"
                 variant="title"
                 color="inherit"
-                style={{
-                  padding: 16,
-                  margin: "0 auto"
-                }}
               />
             </div>
 
@@ -115,13 +83,7 @@ class ScratchPadDialog extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <Typography
-          variant="display1"
-          style={{
-            padding: 16,
-            margin: "0 auto"
-          }}
-        >
+        <Typography className="title__info" variant="display1">
           {showWarning === true ? warningText : displayText}
         </Typography>
         <Button color="inherit" onClick={this.handelUpdate}>
@@ -131,8 +93,6 @@ class ScratchPadDialog extends Component {
     );
   };
 }
-
-const transition = props => <Slide direction="up" {...props} />;
 
 const speechRecognitionOptions = {
   autoStart: false,

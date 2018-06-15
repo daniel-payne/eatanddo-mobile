@@ -29,6 +29,7 @@ class EntrySummary extends Component {
     entry: PropTypes.object,
     display: PropTypes.object
   };
+
   state = {
     isChoiceSelectorOpen: false,
     isDaySelectorOpen: false,
@@ -38,6 +39,7 @@ class EntrySummary extends Component {
     isMatchSelectorOpen: false,
     selectedLine: undefined
   };
+
   handelDone = () => {
     this.props.history.push(`meal-description`);
   };
@@ -47,25 +49,43 @@ class EntrySummary extends Component {
   handleClose = name => () => {
     this.setState({ [name]: false });
   };
-  handlDelete = () => {
+  handleDelete = () => {
     this.props.entry.removeLine(this.state.selectedLine);
     this.setState({ selectedLine: null, isChoiceSelectorOpen: false });
   };
-  handelDaySelect = () => {
+  handleDaySelect = () => {
     this.setState({ isDaySelectorOpen: true });
   };
-  handelMealSelect = () => {
+  handleMealSelect = () => {
     this.setState({ isMealSelectorOpen: true });
   };
-  handelLineSelect = line => () => {
+  handleLineSelect = line => () => {
     if (!line.quantity || line.unit === "") {
       this.setState({ selectedLine: line, isAmountSelectorOpen: true });
     } else {
       this.setState({ selectedLine: line, isChoiceSelectorOpen: true });
     }
   };
+
   render() {
+    const {
+      handleOpen,
+      handleDaySelect,
+      handleMealSelect,
+      handleLineSelect,
+      handleClose,
+      handleDelete
+    } = this;
     const { entry, display } = this.props;
+    const {
+      isAmountSelectorOpen,
+      isMatchSelectorOpen,
+      isChoiceSelectorOpen,
+      isScratchPadOpen,
+      isDaySelectorOpen,
+      isMealSelectorOpen,
+      selectedLine
+    } = this.state;
     const { selectedNutrition } = display || {};
 
     if (!entry) {
@@ -88,16 +108,16 @@ class EntrySummary extends Component {
             zIndex: 999,
             margin: 8
           }}
-          onClick={this.handleOpen("isScratchPadOpen")}
+          onClick={handleOpen("isScratchPadOpen")}
         >
           <MicrophoneIcon />
         </Button>
 
         <List>
-          <DayDisplay entry={entry} onSelect={this.handelDaySelect} />
+          <DayDisplay entry={entry} onSelect={handleDaySelect} />
           <MealDisplay
             entry={entry}
-            onSelect={this.handelMealSelect}
+            onSelect={handleMealSelect}
             selectedNutrition={selectedNutrition}
           />
           <Divider />
@@ -109,7 +129,7 @@ class EntrySummary extends Component {
             <LineDisplay
               item={item}
               no={i}
-              onSelect={this.handelLineSelect(item)}
+              onSelect={handleLineSelect(item)}
               key={i}
               selectedNutrition={selectedNutrition}
             />
@@ -119,45 +139,45 @@ class EntrySummary extends Component {
         <div style={{ height: 56 }} />
 
         <WeightDialog
-          isOpen={this.state.isAmountSelectorOpen}
-          onClose={this.handleClose("isAmountSelectorOpen")}
-          mealItem={this.state.selectedLine}
+          isOpen={isAmountSelectorOpen}
+          onClose={handleClose("isAmountSelectorOpen")}
+          mealItem={selectedLine}
         />
 
         <MatchesDialog
-          isOpen={this.state.isMatchSelectorOpen}
-          onClose={this.handleClose("isMatchSelectorOpen")}
-          mealItem={this.state.selectedLine}
+          isOpen={isMatchSelectorOpen}
+          onClose={handleClose("isMatchSelectorOpen")}
+          mealItem={selectedLine}
           isAllMatches={
-            this.state.selectedLine && this.state.selectedLine.search
-              ? this.state.selectedLine.search.isAllMatches
+            selectedLine && selectedLine.search
+              ? selectedLine.search.isAllMatches
               : null
           }
         />
 
         <ChoiceDialog
-          isOpen={this.state.isChoiceSelectorOpen}
-          onClose={this.handleClose("isChoiceSelectorOpen")}
-          onOpenChoice={this.handleOpen}
-          onDeleteChoice={this.handlDelete}
+          isOpen={isChoiceSelectorOpen}
+          onClose={handleClose("isChoiceSelectorOpen")}
+          onOpenChoice={handleOpen}
+          onDeleteChoice={handleDelete}
         />
 
         <ScratchPadDialog
-          isOpen={this.state.isScratchPadOpen}
-          onClose={this.handleClose("isScratchPadOpen")}
-          entry={this.props.entry}
+          isOpen={isScratchPadOpen}
+          onClose={handleClose("isScratchPadOpen")}
+          entry={entry}
         />
 
         <DayDialog
-          isOpen={this.state.isDaySelectorOpen}
-          onClose={this.handleClose("isDaySelectorOpen")}
-          entry={this.props.entry}
+          isOpen={isDaySelectorOpen}
+          onClose={handleClose("isDaySelectorOpen")}
+          entry={entry}
         />
 
         <MealDialog
-          isOpen={this.state.isMealSelectorOpen}
-          onClose={this.handleClose("isMealSelectorOpen")}
-          entry={this.props.entry}
+          isOpen={isMealSelectorOpen}
+          onClose={handleClose("isMealSelectorOpen")}
+          entry={entry}
         />
       </div>
     );

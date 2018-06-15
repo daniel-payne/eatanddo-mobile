@@ -13,6 +13,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 
+import "./DayDialog.css";
+
 class DayDialog extends Component {
   static propTypes = {
     entry: PropTypes.object.isRequired,
@@ -45,36 +47,25 @@ class DayDialog extends Component {
 
     this.handelDone();
   };
+
   render = () => {
-    const { props } = this;
+    const { isOpen, onClose } = this.props;
+
     return (
       <Dialog
-        className="ScratchPadDialog"
-        open={props.isOpen}
-        onClose={props.onClose}
+        className="DayDialog"
+        open={isOpen}
+        onClose={onClose}
         fullScreen
         TransitionComponent={transition}
       >
-        <AppBar
-          style={{
-            position: "relative"
-          }}
-        >
+        <AppBar className="title_bar">
           <Toolbar>
-            <div
-              variant="title"
-              color="inherit"
-              style={{
-                flex: 1
-              }}
-            >
+            <div variant="title" color="inherit" className="title__container">
               <Typography
                 variant="title"
                 color="inherit"
-                style={{
-                  padding: 16,
-                  margin: "0 auto"
-                }}
+                className="title__text"
               />
             </div>
 
@@ -86,10 +77,7 @@ class DayDialog extends Component {
         <Typography
           variant="title"
           color="inherit"
-          style={{
-            padding: 16,
-            margin: "0 auto"
-          }}
+          className="title__information"
         >
           Which day to add food entries to
         </Typography>

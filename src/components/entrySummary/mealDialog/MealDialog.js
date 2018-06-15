@@ -23,7 +23,7 @@ import Avatar from "@material-ui/core/Avatar";
 // import BackspaceIcon from "@material-ui/icons/Backspace";
 // import ClearAllIcon from "@material-ui/icons/ClearAll";
 
-const transition = props => <Slide direction="up" {...props} />;
+import "./MealDialog.css";
 
 class MealDialog extends Component {
   handelDone = () => {
@@ -36,59 +36,51 @@ class MealDialog extends Component {
 
     this.handelDone();
   };
+
+  Transition = props => <Slide direction="up" {...props} />;
+
   render = () => {
-    const { props } = this;
+    const { Transition, handelDone, handelUpdate } = this;
+    const { isOpen, onClose } = this.props;
+
     return (
       <Dialog
-        className="ScratchPadDialog"
-        open={props.isOpen}
-        onClose={props.onClose}
+        className="MealDialog"
+        open={isOpen}
+        onClose={onClose}
         fullScreen
-        TransitionComponent={transition}
+        TransitionComponent={Transition}
       >
-        <AppBar
-          style={{
-            position: "relative"
-          }}
-        >
+        <AppBar className="title_bar">
           <Toolbar>
-            <div
-              variant="title"
-              color="inherit"
-              style={{
-                flex: 1
-              }}
-            >
+            <div variant="title" color="inherit" className="title__container">
               <Typography
                 variant="title"
                 color="inherit"
-                style={{
-                  padding: 16,
-                  margin: "0 auto"
-                }}
+                className="title__text"
               />
             </div>
 
-            <Button color="inherit" onClick={this.handelDone}>
+            <Button color="inherit" onClick={handelDone}>
               Dont know
             </Button>
           </Toolbar>
         </AppBar>
 
         <List>
-          <ListItem button onClick={this.handelUpdate("Breakfast")}>
+          <ListItem button onClick={handelUpdate("Breakfast")}>
             <Avatar>B</Avatar>
             <ListItemText primary="Breakfast" secondary={null} />
           </ListItem>
-          <ListItem button onClick={this.handelUpdate("Lunch")}>
+          <ListItem button onClick={handelUpdate("Lunch")}>
             <Avatar>L</Avatar>
             <ListItemText primary="Lunch" secondary={null} />
           </ListItem>
-          <ListItem button onClick={this.handelUpdate("Dinner")}>
+          <ListItem button onClick={handelUpdate("Dinner")}>
             <Avatar>D</Avatar>
             <ListItemText primary="Dinner" secondary={null} />
           </ListItem>
-          <ListItem button onClick={this.handelUpdate("Snacks")}>
+          <ListItem button onClick={handelUpdate("Snacks")}>
             <Avatar>S</Avatar>
             <ListItemText primary="Snacks" secondary={null} />
           </ListItem>

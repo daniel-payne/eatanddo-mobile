@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 
 import ListItem from "@material-ui/core/ListItem";
@@ -7,10 +8,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import ErrorIcon from "@material-ui/icons/Error";
+
 import { CALCULATION_COMPLETE as LINE_CALCULATION_COMPLETE } from "data/models/EntryLine";
 
+import "./LineDisplay.css";
+
 const LineDisplay = props => {
-  const { item, no, onSelect, selectedNutrition } = props;
+  const { item, no, selectedNutrition, onSelect } = props;
 
   let statusMessage = item.selectedFood ? item.selectedFood.foodName : null;
 
@@ -37,7 +41,7 @@ const LineDisplay = props => {
   }
 
   return (
-    <ListItem button onClick={onSelect}>
+    <ListItem className="LineDisplay" button onClick={onSelect}>
       <Avatar>{no + 1}</Avatar>
 
       <ListItemText
@@ -48,15 +52,21 @@ const LineDisplay = props => {
       />
       <ListItemIcon>
         {item.calculationStatus === LINE_CALCULATION_COMPLETE ? (
-          <Avatar style={{ backgroundColor: "white", color: "black" }}>
-            {result}
-          </Avatar>
+          <Avatar className="data-avatar">{result}</Avatar>
         ) : (
           <ErrorIcon />
         )}
       </ListItemIcon>
     </ListItem>
   );
+};
+
+LineDisplay.propTypes = {
+  item: PropTypes.object.isRequired,
+  no: PropTypes.number.isRequired,
+  selectedNutrition: PropTypes.object.isRequired,
+
+  onSelect: PropTypes.func.isRequired
 };
 
 export default observer(LineDisplay);

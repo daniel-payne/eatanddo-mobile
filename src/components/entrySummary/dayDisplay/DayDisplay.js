@@ -6,8 +6,10 @@ import ListItem from "@material-ui/core/ListItem";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 
+import "./DayDisplay.css";
+
 const DayDisplay = props => {
-  const { entry } = props;
+  const { entry, onSelect } = props;
 
   let dayTitle;
   let dayInformation;
@@ -42,7 +44,7 @@ const DayDisplay = props => {
     <ListItem
       className="DayDisplay"
       button
-      onClick={props.onSelect ? props.onSelect : null}
+      onClick={onSelect ? onSelect : null}
     >
       <Avatar>D</Avatar>
       <ListItemText primary={dayTitle} secondary={dayInformation} />

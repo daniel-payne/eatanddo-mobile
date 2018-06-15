@@ -11,8 +11,10 @@ import ErrorIcon from "@material-ui/icons/Error";
 
 import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/Entry";
 
+import "./MealDisplay.css";
+
 const MealDisplay = props => {
-  const { entry, selectedNutrition } = props;
+  const { entry, selectedNutrition, onSelect } = props;
 
   let mealTitle;
   let mealInformation;
@@ -44,14 +46,12 @@ const MealDisplay = props => {
   }
 
   return (
-    <ListItem button onClick={props.onSelect ? props.onSelect : null}>
+    <ListItem button onClick={onSelect ? onSelect : null}>
       <Avatar>M</Avatar>
       <ListItemText primary={mealTitle} secondary={mealInformation} />
       <ListItemIcon>
         {entry.calculationStatus === ENTRY_CALCULATION_COMPLETE ? (
-          <Avatar style={{ backgroundColor: "white", color: "black" }}>
-            {mealData}
-          </Avatar>
+          <Avatar className="data-avatar">{mealData}</Avatar>
         ) : (
           <ErrorIcon />
         )}
@@ -62,6 +62,7 @@ const MealDisplay = props => {
 
 MealDisplay.propTypes = {
   entry: PropTypes.object.isRequired,
+  selectedNutrition: PropTypes.object.isRequired,
 
   onSelect: PropTypes.func.isRequired
 };

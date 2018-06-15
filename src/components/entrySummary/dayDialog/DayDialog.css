@@ -1,0 +1,16 @@
+.DayDialog .title_bar {
+  position: relative;
+}
+
+.DayDialog .title_bar .title__container {
+  flex: 1;
+}
+
+.DayDialog .title_bar .title__text {
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.DayDialog .title_bar .title__search {
+  margin-left: 54px;
+}

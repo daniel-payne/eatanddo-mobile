@@ -5,7 +5,8 @@ import { observer } from "mobx-react";
 import Button from "@material-ui/core/Button";
 import ListItem from "@material-ui/core/ListItem";
 import TextField from "@material-ui/core/TextField";
-// import ListItemText from "@material-ui/core/ListItemText";
+
+import "./LineCreator.css";
 
 class LineCreator extends Component {
   static propTypes = {
@@ -20,7 +21,7 @@ class LineCreator extends Component {
 
   onDone = event => {
     const { entry } = this.props;
-
+    //cant use refs with materal-ui, its the way they wrote it
     const element = document.querySelector(".LineCreator .new-line-data input");
 
     if (element && element.value && element.value.length > 0) {
@@ -31,15 +32,12 @@ class LineCreator extends Component {
   };
 
   render = () => {
-    // const { entry } = this.props;
+    const { onKeyPress, onDone } = this;
 
     return (
       <ListItem className="LineCreator">
         <TextField
-          // id="full-width"
           className="new-line-data"
-          // ref={this.inputReference}
-          // label="Add item to food diary"
           InputLabelProps={{
             shrink: true
           }}
@@ -47,9 +45,9 @@ class LineCreator extends Component {
           helperText="Type an amount and name, eg 20 grams of cheddar cheese"
           fullWidth
           margin="normal"
-          onKeyPress={this.onKeyPress}
+          onKeyPress={onKeyPress}
         />
-        <Button onClick={this.onDone}>Add</Button>
+        <Button onClick={onDone}>Add</Button>
       </ListItem>
     );
   };

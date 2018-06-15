@@ -22,10 +22,10 @@ class WeightDialog extends Component {
   state = {
     weight: ""
   };
-  transition = props => {
-    return <Slide direction="up" {...props} />;
-  };
-  onUpdate = amount => () => {
+
+  Transition = props => <Slide direction="up" {...props} />;
+
+  handleUpdate = amount => () => {
     let newWeight = null;
 
     if (amount === "CLEAR") {
@@ -44,21 +44,30 @@ class WeightDialog extends Component {
 
     this.setState({ weight: newWeight });
   };
-  onDone = () => {
-    this.props.mealItem.updateWeight(+this.state.weight, "grams");
+  handleDone = () => {
+    const { mealItem, onClose } = this.props;
+
+    mealItem.updateWeight(+this.state.weight, "grams");
+
     this.setState({ weight: "" });
-    this.props.onClose();
+
+    onClose();
   };
+
   render = () => {
-    const buttonSize = this.props.width === "lg" ? "large" : "medium";
-    const foodTitle = this.props.mealItem ? this.props.mealItem.text : null;
+    const { Transition } = this;
+    const { width, mealItem, isOpen, onClose } = this.props;
+
+    const buttonSize = width === "lg" ? "large" : "medium";
+    const foodTitle = mealItem ? mealItem.text : null;
+
     return (
       <Dialog
-        fullScreen
-        open={this.props.isOpen}
-        onClose={this.props.onClose}
-        TransitionComponent={this.transition}
         className="WeightDialog"
+        fullScreen
+        open={isOpen}
+        onClose={onClose}
+        TransitionComponent={Transition}
       >
         <AppBar
           style={{
@@ -74,7 +83,7 @@ class WeightDialog extends Component {
               }}
             />
 
-            <Button color="inherit" onClick={this.props.onClose}>
+            <Button color="inherit" onClick={onClose}>
               Not Sure
             </Button>
           </Toolbar>
@@ -109,7 +118,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("1")}
+                onClick={this.handleUpdate("1")}
               >
                 1
               </Button>
@@ -117,7 +126,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("2")}
+                onClick={this.handleUpdate("2")}
               >
                 2
               </Button>
@@ -125,7 +134,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("3")}
+                onClick={this.handleUpdate("3")}
               >
                 3
               </Button>
@@ -137,7 +146,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("4")}
+                onClick={this.handleUpdate("4")}
               >
                 4
               </Button>
@@ -145,7 +154,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("5")}
+                onClick={this.handleUpdate("5")}
               >
                 5
               </Button>
@@ -153,7 +162,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("6")}
+                onClick={this.handleUpdate("6")}
               >
                 6
               </Button>
@@ -165,7 +174,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("7")}
+                onClick={this.handleUpdate("7")}
               >
                 7
               </Button>
@@ -173,7 +182,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("8")}
+                onClick={this.handleUpdate("8")}
               >
                 8
               </Button>
@@ -181,7 +190,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("9")}
+                onClick={this.handleUpdate("9")}
               >
                 9
               </Button>
@@ -193,7 +202,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("CLEAR")}
+                onClick={this.handleUpdate("CLEAR")}
               >
                 <ClearAllIcon />
               </Button>
@@ -201,7 +210,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("0")}
+                onClick={this.handleUpdate("0")}
               >
                 0
               </Button>
@@ -209,7 +218,7 @@ class WeightDialog extends Component {
                 color="primary"
                 variant="outlined"
                 size={buttonSize}
-                onClick={this.onUpdate("BACKSPACE")}
+                onClick={this.handleUpdate("BACKSPACE")}
               >
                 <BackspaceIcon />
               </Button>
@@ -222,7 +231,7 @@ class WeightDialog extends Component {
               variant="raised"
               color="primary"
               disabled={this.state.weight.length === 0}
-              onClick={this.onDone}
+              onClick={this.handleDone}
             >
               Done
             </Button>
