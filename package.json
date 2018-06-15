@@ -18,7 +18,7 @@
     "react-speech-recognition": "^1.0.6"
   },
   "scripts": {
-    "startup": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
