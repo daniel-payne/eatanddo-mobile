@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -35,63 +34,61 @@ class Application extends Component {
     isDrawOpen: false,
     isLoginOpen: false
   };
-  openDraw = () => {
+
+  handleOpenDraw = () => {
     this.setState({ isDrawOpen: true });
   };
-  closeDraw = () => {
+  handleCloseDraw = () => {
     this.setState({ isDrawOpen: false });
   };
-  openLogin = () => {
+  handleOpenLogin = () => {
     this.setState({ isLoginOpen: true });
   };
-  closeLogin = () => {
+  handleCloseLogin = () => {
     this.setState({ isLoginOpen: false });
   };
 
   render() {
+    const { handleOpenDraw, handleCloseDraw, handleCloseLogin } = this;
+    const { isDrawOpen, isLoginOpen } = this.state;
     const { store } = this.props;
     const { entry, display } = store;
+
     return (
-      <div className="App" style={{ height: "100%" }}>
+      <div className="Application">
         <Router>
           <React.Fragment>
             <CssBaseline />
             <AppBar position="static">
               <Toolbar>
                 <IconButton
-                  style={{
-                    marginRLeft: -12,
-                    marginRight: -48,
-                    zIndex: 99
-                  }}
+                  className="menu-icon"
                   color="inherit"
                   aria-label="Menu"
-                  onClick={this.openDraw}
+                  onClick={handleOpenDraw}
                 >
                   <MenuIcon />
                 </IconButton>
                 <Typography
+                  className="heading-container"
                   variant="title"
                   color="inherit"
-                  style={{
-                    flex: 1
-                  }}
                 >
                   <Title />
                 </Typography>
-                {/* <Button color="inherit" onClick={this.openLogin}>
+                {/* <Button color="inherit" onClick={openLogin}>
                   Login
                 </Button> */}
               </Toolbar>
               <SettingsDrawer
-                isOpen={this.state.isDrawOpen}
-                onClose={this.closeDraw}
+                isOpen={isDrawOpen}
+                onClose={handleCloseDraw}
                 display={display}
               />
             </AppBar>
             <Dialog
-              open={this.state.isLoginOpen}
-              onClose={this.closeLogin}
+              open={isLoginOpen}
+              onClose={handleCloseLogin}
               aria-labelledby="form-dialog-title"
             >
               <DialogTitle id="form-dialog-title">Login</DialogTitle>
@@ -119,10 +116,10 @@ class Application extends Component {
                 </Button>
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.closeLogin} color="primary">
+                <Button onClick={handleCloseLogin} color="primary">
                   Just Start Using
                 </Button>
-                <Button onClick={this.closeLogin} color="primary">
+                <Button onClick={handleCloseLogin} color="primary">
                   Login
                 </Button>
               </DialogActions>
@@ -148,17 +145,10 @@ class Application extends Component {
           </React.Fragment>
         </Router>
         <Button
+          className="scratchpad-option"
           variant="fab"
           color="primary"
           aria-label="microphone"
-          style={{
-            bottom: 0,
-            right: 0,
-            position: "absolute",
-            zIndex: 999,
-            margin: 8,
-            display: "none"
-          }}
         >
           <MicrophoneIcon />
         </Button>

@@ -96,7 +96,11 @@ class MatchesDialog extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <Typography variant="title" color="inherit" className="title__text">
+        <Typography
+          variant="title"
+          color="inherit"
+          className="options_information"
+        >
           {`Which nutritional information to use for '${text}' `}
         </Typography>
 

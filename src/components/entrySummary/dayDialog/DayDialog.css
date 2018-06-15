@@ -11,6 +11,11 @@
   margin: 0 auto;
 }
 
+.DayDialog .action__information {
+  padding: 16px;
+  margin: 0 auto;
+}
+
 .DayDialog .title_bar .title__search {
   margin-left: 54px;
 }

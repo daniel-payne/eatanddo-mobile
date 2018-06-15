@@ -66,6 +66,13 @@ class MealDialog extends Component {
             </Button>
           </Toolbar>
         </AppBar>
+        <Typography
+          variant="title"
+          color="inherit"
+          className="action__information"
+        >
+          Which mealtime to add food entries to
+        </Typography>
 
         <List>
           <ListItem button onClick={handelUpdate("Breakfast")}>

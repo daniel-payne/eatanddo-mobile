@@ -77,7 +77,7 @@ class DayDialog extends Component {
         <Typography
           variant="title"
           color="inherit"
-          className="title__information"
+          className="action__information"
         >
           Which day to add food entries to
         </Typography>

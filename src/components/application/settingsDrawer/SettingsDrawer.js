@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 
-// import Avatar from "@material-ui/core/Avatar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -34,73 +33,79 @@ import {
   US_DATA
 } from "data/models/Display";
 
-const SettingsOption = props => {
-  const { label, value, selected, isSecondary, onSelect } = props;
-
-  return (
-    <ListItem button onClick={onSelect}>
-      <ListItemText primary={label} inset={isSecondary} />
-
-      {value === selected ? (
-        <ListItemIcon>
-          <CheckIcon />
-        </ListItemIcon>
-      ) : null}
-    </ListItem>
-  );
-};
-
-const NUTRITION_OPTIONS = [
-  { label: "Calories", value: CALORIES },
-  // { label: "KiloJoules", value: KILOJOULES },
-  { label: "Protine", value: PROTEIN },
-  { label: "Carbohydrate", value: CARBOHYDRATE },
-  { label: "Sugar", value: SUGAR, isSecondary: true },
-  // { label: "Starch", value: STARCH, isSecondary: true },
-  { label: "Fat", value: FAT },
-  { label: "Saturated Fat", value: SATURATEDFAT, isSecondary: true },
-  // { label: "Unsaturated Fat", value: UNSATURATEDFAT, isSecondary: true },
-  // { label: "Cholesterol", value: CHOLESTEROL, isSecondary: true },
-  // { label: "Trans Fat", value: TRANSFAT, isSecondary: true },
-  // { label: "Fibre", value: DIETARYFIBRE },
-  // { label: "Soluble Fibre", value: SOLUBLEFIBRE, isSecondary: true },
-  // { label: "Insoluble Fibre", value: INSOLUBLEFIBRE, isSecondary: true },
-  { label: "Salt", value: SALT }
-  // { label: "Sodium", value: SODIUM, isSecondary: true },
-  // { label: "Alcohol", value: ALCOHOL }
-];
-
-const SOURCE_OPTIONS = [
-  { label: "UK Database", value: UK_DATA },
-  { label: "US Database", value: US_DATA }
-];
-
 class SettingsDrawer extends Component {
   static propTypes = {
     display: PropTypes.object,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func
   };
-  handelSelectNutrition = choice => () => {
+
+  static NUTRITION_OPTIONS = [
+    { label: "Calories", value: CALORIES },
+    // { label: "KiloJoules", value: KILOJOULES },
+    { label: "Protine", value: PROTEIN },
+    { label: "Carbohydrate", value: CARBOHYDRATE },
+    { label: "Sugar", value: SUGAR, isSecondary: true },
+    // { label: "Starch", value: STARCH, isSecondary: true },
+    { label: "Fat", value: FAT },
+    { label: "Saturated Fat", value: SATURATEDFAT, isSecondary: true },
+    // { label: "Unsaturated Fat", value: UNSATURATEDFAT, isSecondary: true },
+    // { label: "Cholesterol", value: CHOLESTEROL, isSecondary: true },
+    // { label: "Trans Fat", value: TRANSFAT, isSecondary: true },
+    // { label: "Fibre", value: DIETARYFIBRE },
+    // { label: "Soluble Fibre", value: SOLUBLEFIBRE, isSecondary: true },
+    // { label: "Insoluble Fibre", value: INSOLUBLEFIBRE, isSecondary: true },
+    { label: "Salt", value: SALT }
+    // { label: "Sodium", value: SODIUM, isSecondary: true },
+    // { label: "Alcohol", value: ALCOHOL }
+  ];
+
+  static SOURCE_OPTIONS = [
+    { label: "UK Database", value: UK_DATA },
+    { label: "US Database", value: US_DATA }
+  ];
+
+  handleSelectNutrition = choice => () => {
     const { display } = this.props;
 
     display.updateNutrition(choice);
   };
-  handelSelectSource = choice => () => {
+  handleSelectSource = choice => () => {
     const { display } = this.props;
 
     display.updateSource(choice);
   };
+
+  SettingsOption = props => {
+    const { label, value, selected, isSecondary, onSelect } = props;
+
+    const labelStyle = isSecondary === true ? { paddingLeft: 16 } : null;
+
+    return (
+      <ListItem button onClick={onSelect}>
+        <ListItemText primary={label} style={labelStyle} />
+
+        {value === selected ? (
+          <ListItemIcon>
+            <CheckIcon />
+          </ListItemIcon>
+        ) : null}
+      </ListItem>
+    );
+  };
+
   render() {
-    const { display } = this.props;
+    const { NUTRITION_OPTIONS, SOURCE_OPTIONS } = SettingsDrawer;
+    const { SettingsOption, handleSelectNutrition, handleSelectSource } = this;
+    const { display, isOpen, onClose } = this.props;
     const { selectedNutrition, selectedSource } = display || {};
 
     return (
       <Drawer
         className="SettingsDrawer"
         anchor="left"
-        open={this.props.isOpen}
-        onClose={this.props.onClose}
+        open={isOpen}
+        onClose={onClose}
       >
         <List component="nav">
           <ListSubheader disableSticky={true} color="primary">
@@ -113,7 +118,7 @@ class SettingsDrawer extends Component {
               label={item.label}
               value={item.value}
               selected={selectedNutrition}
-              onSelect={this.handelSelectNutrition(item.value)}
+              onSelect={handleSelectNutrition(item.value)}
               isSecondary={item.isSecondary}
             />
           ))}
@@ -128,7 +133,7 @@ class SettingsDrawer extends Component {
               label={item.label}
               value={item.value}
               selected={selectedSource}
-              onSelect={this.handelSelectSource(item.value)}
+              onSelect={handleSelectSource(item.value)}
             />
           ))}
         </List>
