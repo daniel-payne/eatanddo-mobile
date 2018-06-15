@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
+import Typography from "@material-ui/core/Typography";
 
 import CheckIcon from "@material-ui/icons/Check";
 
@@ -137,6 +138,15 @@ class SettingsDrawer extends Component {
             />
           ))}
         </List>
+        <div className="version-information">
+          <Typography
+            className="heading-container"
+            variant="caption"
+            align="center"
+          >
+            Version {process.env.REACT_APP_VERSION}
+          </Typography>
+        </div>
       </Drawer>
     );
   }
