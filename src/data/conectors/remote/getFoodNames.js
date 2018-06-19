@@ -1,6 +1,6 @@
 function getFoodNames(match, count = 10, useCache = true) {
   if (useCache === true && window.localStorage) {
-    const result = localStorage.getItem(`search[${match}]`);
+    const result = window.localStorage.getItem(`search[${match}]`);
 
     if (result) {
       return Promise.resolve(JSON.parse(result));
@@ -33,8 +33,8 @@ function getFoodNames(match, count = 10, useCache = true) {
       });
     })
     .then(result => {
-      if (localStorage && result) {
-        localStorage.setItem(`search[${match}]`, JSON.stringify(result));
+      if (window.localStorage && result) {
+        window.localStorage.setItem(`search[${match}]`, JSON.stringify(result));
       }
 
       return result;

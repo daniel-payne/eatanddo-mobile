@@ -1,6 +1,6 @@
 function getFood(foodId, useCache = true) {
   if (useCache === true && window.localStorage) {
-    const result = localStorage.getItem(`food[${foodId}]`);
+    const result = window.localStorage.getItem(`food[${foodId}]`);
 
     if (result) {
       return Promise.resolve(JSON.parse(result));
@@ -38,8 +38,8 @@ function getFood(foodId, useCache = true) {
     .then(result => {
       const item = result.length === 1 ? result[0] : null;
 
-      if (localStorage && item) {
-        localStorage.setItem(`food[${foodId}]`, JSON.stringify(item));
+      if (window.localStorage && item) {
+        window.localStorage.setItem(`food[${foodId}]`, JSON.stringify(item));
       }
 
       return item;
