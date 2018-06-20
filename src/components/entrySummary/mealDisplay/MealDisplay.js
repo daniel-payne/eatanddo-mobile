@@ -64,8 +64,8 @@ const MealDisplay = props => {
 };
 
 MealDisplay.propTypes = {
-  entry: PropTypes.object.isRequired,
-  selectedNutrition: PropTypes.object.isRequired,
+  meal: PropTypes.object.isRequired,
+  selectedNutrition: PropTypes.string.isRequired,
 
   onSelect: PropTypes.func.isRequired
 };

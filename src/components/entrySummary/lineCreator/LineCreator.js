@@ -10,7 +10,7 @@ import "./LineCreator.css";
 
 class LineCreator extends Component {
   static propTypes = {
-    entry: PropTypes.object.isRequired
+    meal: PropTypes.object.isRequired
   };
 
   onKeyPress = event => {
@@ -20,12 +20,12 @@ class LineCreator extends Component {
   };
 
   onDone = event => {
-    const { entry } = this.props;
+    const { meal } = this.props;
     //cant use refs with materal-ui, its the way they wrote it
     const element = document.querySelector(".LineCreator .new-line-data input");
 
     if (element && element.value && element.value.length > 0) {
-      entry.addEntryDescription(element.value);
+      meal.addItems(element.value);
 
       element.value = null;
     }
@@ -47,7 +47,9 @@ class LineCreator extends Component {
           margin="normal"
           onKeyPress={onKeyPress}
         />
-        <Button onClick={onDone}>Add</Button>
+        <Button onClick={onDone} className="action-add">
+          Add
+        </Button>
       </ListItem>
     );
   };

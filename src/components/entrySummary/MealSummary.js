@@ -121,11 +121,9 @@ class MealSummary extends Component {
             selectedNutrition={selectedNutrition}
           />
           <Divider />
-
-          {/* <LineCreator meal={meal} /> */}
+          <LineCreator meal={meal} />
           <Divider />
-
-          {/* {meal.items.map((item, i) => (
+          {meal.items.map((item, i) => (
             <LineDisplay
               item={item}
               no={i}
@@ -133,7 +131,7 @@ class MealSummary extends Component {
               key={i}
               selectedNutrition={selectedNutrition}
             />
-          ))} */}
+          ))}
         </List>
 
         <div className="bottom-seperator" />

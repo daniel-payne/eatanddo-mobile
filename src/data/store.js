@@ -56,13 +56,12 @@ const Store = types
     }
   }))
   .actions(self => ({
-    // validateEntry: flow(function* validateEntry(entry) {
-    //   for (let i = 0; i < self.entry.lines.length; i++) {
-    //     const line = self.entry.lines[i];
-
-    //     yield line.chooseMatch(line.selectedMatch);
-    //   }
-    // }),
+    validateDay: flow(function* validateEntry(day) {
+      //   for (let i = 0; i < self.entry.lines.length; i++) {
+      //     const line = self.entry.lines[i];
+      //     yield line.chooseMatch(line.selectedMatch);
+      //   }
+    }),
     loadDiary: flow(function* loadSearch(isoDate, mealtime) {
       let meal;
       let day = self.days.find(item => item.isoDate === isoDate);

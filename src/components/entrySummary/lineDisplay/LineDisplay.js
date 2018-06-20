@@ -22,7 +22,7 @@ const LineDisplay = props => {
     statusMessage = `How much does ${item.text} weigh`;
   }
 
-  let result = item.nutritionPerLine(selectedNutrition);
+  let result = item.nutritionPerItem(selectedNutrition);
 
   if (result && !Number.isNaN(result)) {
     if (
@@ -64,7 +64,7 @@ const LineDisplay = props => {
 LineDisplay.propTypes = {
   item: PropTypes.object.isRequired,
   no: PropTypes.number.isRequired,
-  selectedNutrition: PropTypes.object.isRequired,
+  selectedNutrition: PropTypes.string.isRequired,
 
   onSelect: PropTypes.func.isRequired
 };
