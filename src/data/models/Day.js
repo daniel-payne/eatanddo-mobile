@@ -43,11 +43,8 @@ const Day = types
           }
           return total;
         }, null);
-      }
-    };
-  })
-  .views(self => {
-    return {
+      },
+
       get store() {
         return getParent(self, 2);
       }

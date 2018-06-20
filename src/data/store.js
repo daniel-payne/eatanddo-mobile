@@ -70,7 +70,7 @@ const Store = types
           const item = meal.items[j];
 
           if (item.selectedFood === null) {
-            yield self.chooseSearch(item);
+            yield item.loadSearch();
           }
         }
       }
@@ -79,65 +79,6 @@ const Store = types
     }),
     storeDay: flow(function* validateEntry(day) {
       yield setDay(day);
-    }),
-    chooseSearch: flow(function* chooseSearch(item) {
-      let search;
-      // let selectedFood;
-      let searchString;
-
-      try {
-        search = item.search;
-      } catch (error) {
-        searchString = item.toJSON().search;
-      }
-
-      if (!search) {
-        const search = yield store.loadSearch(
-          searchString || item.alternativeText || item.foodText
-        );
-
-        item.search = search;
-
-        if (
-          !item.selectedFood &&
-          item.search &&
-          item.search.matches.length > 0
-        ) {
-          const foodId = item.search.matches[0].foodId;
-
-          yield self.loadFood(foodId);
-
-          item.selectedFood = foodId;
-        }
-      }
-
-      yield self.storeDay(item.meal.day);
-    }),
-    chooseMatch: flow(function* chooseMatch(entry, match) {
-      // self.selectedMatch = match;
-      // if (match) {
-      //   postSearchUsed(match.searchId, match.foodId, self.search.text);
-      // }
-      // if (!match) {
-      //   if (!self.search) {
-      //     const search = yield store.loadSearch(
-      //       self.alternativeFoodName || self.foodName
-      //     );
-      //     self.search = search;
-      //   }
-      //   if (self.search && self.search.matches.length > 0) {
-      //     self.selectedMatch = self.search.matches[0];
-      //   }
-      // } else {
-      //   self.selectedMatch = self.search
-      //     ? self.search.matches.find(item => item.foodId === match.foodId)
-      //     : null;
-      // }
-      // if (self.selectedMatch) {
-      //   const food = yield store.loadFood(self.selectedMatch.foodId);
-      //   self.selectedFood = food;
-      //   return food;
-      // }
     }),
     loadDiary: flow(function* loadSearch(isoDate, mealtime) {
       let meal;

@@ -60,7 +60,8 @@ class MealSummary extends Component {
     this.setState({ isMealSelectorOpen: true });
   };
   handleLineSelect = item => () => {
-    item.meal.day.store.chooseSearch(item).then(() => {
+    //item.meal.day.store.chooseSearch(item).then(() => {
+    item.loadSearch(item).then(() => {
       if (!item.quantity || item.unit === "") {
         this.setState({ selectedLine: item, isAmountSelectorOpen: true });
       } else {

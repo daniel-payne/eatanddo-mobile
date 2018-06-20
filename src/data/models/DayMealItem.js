@@ -20,20 +20,10 @@ const DayMealItem = types
     quantity: types.maybe(types.number),
     unit: types.maybe(types.string),
 
-    // foodName: types.maybe(types.string),
-    // foodId: types.maybe(types.number),
-
     search: types.maybe(types.reference(Search)),
 
     selectedMatch: types.maybe(types.reference(Match)),
     selectedFood: types.maybe(types.reference(Food))
-  })
-  .views(self => {
-    return {
-      get meal() {
-        return getParent(self, 2);
-      }
-    };
   })
   .views(self => {
     const calculateTotalFor = name => {
@@ -44,6 +34,10 @@ const DayMealItem = types
     };
 
     return {
+      get meal() {
+        return getParent(self, 2);
+      },
+
       get calculationStatus() {
         let status = CALCULATION_INCOMPLETE;
 
@@ -113,6 +107,9 @@ const DayMealItem = types
   })
   .actions(self => ({
     updateWeight(quantity, unit) {
+      const day = self.meal.day;
+      const store = day.store;
+
       if (self.quantity > 0 && self.unit.length > 0) {
         self.text = `${quantity} ${unit} of ${self.foodText}`;
       } else {
@@ -122,19 +119,60 @@ const DayMealItem = types
       self.quantity = quantity;
       self.unit = unit;
 
-      self.meal.day.store.storeDay(self.meal.day);
+      store.storeDay(day);
     },
     updateSearch(alternativeText) {
+      const day = self.meal.day;
+      const store = day.store;
+
       self.alternativeText = alternativeText;
 
       self.search = null;
       self.selectedMatch = null;
       self.selectedFood = null;
 
-      self.meal.day.store.chooseSearch(self);
+      self.loadSearch();
+
+      store.storeDay(day);
     },
-    chooseMatch: flow(function* chooseMatch(match) {
+    loadSearch: flow(function* chooseSearch() {
       const store = self.meal.day.store;
+
+      let search;
+      // let selectedFood;
+      let searchString;
+
+      try {
+        search = self.search;
+      } catch (error) {
+        searchString = self.toJSON().search;
+      }
+
+      if (!search) {
+        const search = yield store.loadSearch(
+          searchString || self.alternativeText || self.foodText
+        );
+
+        self.search = search;
+
+        if (
+          !self.selectedFood &&
+          self.search &&
+          self.search.matches.length > 0
+        ) {
+          const foodId = self.search.matches[0].foodId;
+
+          yield store.loadFood(foodId);
+
+          self.selectedFood = foodId;
+        }
+      }
+
+      yield store.storeDay(self.meal.day);
+    }),
+    chooseMatch: flow(function* chooseMatch(match) {
+      const day = self.meal.day;
+      const store = day.store;
 
       if (match) {
         postSearchUsed(match.searchId, match.foodId, self.search.text);
@@ -143,6 +181,8 @@ const DayMealItem = types
 
         self.selectedMatch = match;
         self.selectedFood = food;
+
+        yield store.storeDay(day);
 
         return food;
       }

@@ -17,11 +17,8 @@ const DayMeal = types
     return {
       get day() {
         return getParent(self, 2);
-      }
-    };
-  })
-  .views(self => {
-    return {
+      },
+
       get calculationStatus() {
         return self.items.reduce((result, item) => {
           if (
@@ -61,14 +58,13 @@ const DayMeal = types
 
       self.day.store.validateDay(self.day);
     },
-    updateDay(dayDate) {
-      self.dayDate = dayDate;
-    },
-    updateMealtime(mealtime) {
-      self.mealtime = mealtime;
-    },
     removeItem(item) {
+      const day = self.day;
+      const store = day.store;
+
       self.items.remove(item);
+
+      store.storeDay(day);
     }
   }));
 
