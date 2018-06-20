@@ -9,7 +9,7 @@ import postSearchUsed from "../conectors/remote/postSearchUsed";
 export const CALCULATION_INCOMPLETE = "CALCULATION_INCOMPLETE";
 export const CALCULATION_COMPLETE = "CALCULATION_COMPLETE";
 
-const EntryLine = types
+const DayMealItem = types
   .model({
     text: types.string,
 
@@ -149,4 +149,4 @@ const EntryLine = types
     })
   }));
 
-export default EntryLine;
+export default DayMealItem;

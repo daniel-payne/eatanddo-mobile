@@ -9,7 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import ErrorIcon from "@material-ui/icons/Error";
 
-import { CALCULATION_COMPLETE as LINE_CALCULATION_COMPLETE } from "data/models/EntryLine";
+import { CALCULATION_COMPLETE as LINE_CALCULATION_COMPLETE } from "data/models/DayMealItem";
 
 import "./LineDisplay.css";
 
