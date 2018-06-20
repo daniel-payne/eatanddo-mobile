@@ -12,7 +12,7 @@ import MicrophoneIcon from "@material-ui/icons/Mic";
 import WeightDialog from "./weightDialog/WeightDialog";
 import MatchesDialog from "./matchesDialog/MatchesDialog";
 import ChoiceDialog from "./choiceDialog/ChoiceDialog";
-import ScratchPadDialog from "./scratchPadDialog/ScratchPadDialog";
+// import ScratchPadDialog from "./scratchPadDialog/ScratchPadDialog";
 import DayDialog from "./dayDialog/DayDialog";
 import MealDialog from "./mealDialog/MealDialog";
 
@@ -50,7 +50,7 @@ class MealSummary extends Component {
     this.setState({ [name]: false });
   };
   handleDelete = () => {
-    this.props.entry.removeLine(this.state.selectedLine);
+    this.state.selectedLine.meal.removeItem(this.state.selectedLine);
     this.setState({ selectedLine: null, isChoiceSelectorOpen: false });
   };
   handleDaySelect = () => {
@@ -59,12 +59,14 @@ class MealSummary extends Component {
   handleMealSelect = () => {
     this.setState({ isMealSelectorOpen: true });
   };
-  handleLineSelect = line => () => {
-    if (!line.quantity || line.unit === "") {
-      this.setState({ selectedLine: line, isAmountSelectorOpen: true });
-    } else {
-      this.setState({ selectedLine: line, isChoiceSelectorOpen: true });
-    }
+  handleLineSelect = item => () => {
+    item.meal.day.store.chooseSearch(item).then(() => {
+      if (!item.quantity || item.unit === "") {
+        this.setState({ selectedLine: item, isAmountSelectorOpen: true });
+      } else {
+        this.setState({ selectedLine: item, isChoiceSelectorOpen: true });
+      }
+    });
   };
 
   render() {
@@ -81,7 +83,7 @@ class MealSummary extends Component {
       isAmountSelectorOpen,
       isMatchSelectorOpen,
       isChoiceSelectorOpen,
-      isScratchPadOpen,
+      // isScratchPadOpen,
       isDaySelectorOpen,
       isMealSelectorOpen,
       selectedLine
@@ -107,18 +109,23 @@ class MealSummary extends Component {
             right: 0,
             position: "absolute",
             zIndex: 999,
-            margin: 8
+            margin: 8,
+            display: "none"
           }}
           onClick={handleOpen("isScratchPadOpen")}
         >
           <MicrophoneIcon />
         </Button>
         <List>
-          <DayDisplay day={day} onSelect={handleDaySelect} />
+          <DayDisplay
+            day={day}
+            selectedNutrition={selectedNutrition}
+            onSelect={handleDaySelect}
+          />
           <MealDisplay
             meal={meal}
-            onSelect={handleMealSelect}
             selectedNutrition={selectedNutrition}
+            onSelect={handleMealSelect}
           />
           <Divider />
           <LineCreator meal={meal} />
@@ -136,12 +143,12 @@ class MealSummary extends Component {
 
         <div className="bottom-seperator" />
 
-        {/* <WeightDialog
+        <WeightDialog
           isOpen={isAmountSelectorOpen}
           onClose={handleClose("isAmountSelectorOpen")}
           mealItem={selectedLine}
-        /> */}
-        {/* <MatchesDialog
+        />
+        <MatchesDialog
           isOpen={isMatchSelectorOpen}
           onClose={handleClose("isMatchSelectorOpen")}
           mealItem={selectedLine}
@@ -150,13 +157,13 @@ class MealSummary extends Component {
               ? selectedLine.search.isAllMatches
               : null
           }
-        /> */}
-        {/* <ChoiceDialog
+        />
+        <ChoiceDialog
           isOpen={isChoiceSelectorOpen}
           onClose={handleClose("isChoiceSelectorOpen")}
           onOpenChoice={handleOpen}
           onDeleteChoice={handleDelete}
-        /> */}
+        />
         {/* <ScratchPadDialog
           isOpen={isScratchPadOpen}
           onClose={handleClose("isScratchPadOpen")}

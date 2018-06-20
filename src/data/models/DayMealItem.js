@@ -20,15 +20,13 @@ const EntryLine = types
     quantity: types.maybe(types.number),
     unit: types.maybe(types.string),
 
-    foodName: types.maybe(types.string),
-    foodId: types.maybe(types.number),
+    // foodName: types.maybe(types.string),
+    // foodId: types.maybe(types.number),
 
     search: types.maybe(types.reference(Search)),
 
     selectedMatch: types.maybe(types.reference(Match)),
-    selectedFood: types.maybe(types.reference(Food)),
-
-    hasLoaded: types.optional(types.boolean, false)
+    selectedFood: types.maybe(types.reference(Food))
   })
   .views(self => {
     return {
@@ -42,6 +40,7 @@ const EntryLine = types
       if (self.quantity && self.selectedFood) {
         return (self.quantity * (self.selectedFood[name] || 0)) / 100;
       }
+      return null;
     };
 
     return {
@@ -115,13 +114,15 @@ const EntryLine = types
   .actions(self => ({
     updateWeight(quantity, unit) {
       if (self.quantity > 0 && self.unit.length > 0) {
-        self.text = `${self.quantity} ${self.unit} of ${self.foodName}`;
+        self.text = `${quantity} ${unit} of ${self.foodText}`;
       } else {
         self.amountText = `, ${quantity} ${unit}`;
       }
 
       self.quantity = quantity;
       self.unit = unit;
+
+      self.meal.day.store.storeDay(self.meal.day);
     },
     updateSearch(alternativeText) {
       self.alternativeText = alternativeText;
@@ -133,12 +134,12 @@ const EntryLine = types
       self.meal.day.store.chooseSearch(self);
     },
     chooseMatch: flow(function* chooseMatch(match) {
-      const store = getParent(self, 3);
+      const store = self.meal.day.store;
 
       if (match) {
         postSearchUsed(match.searchId, match.foodId, self.search.text);
 
-        const food = yield store.loadFood(self.selectedMatch.foodId);
+        const food = yield store.loadFood(match.foodId);
 
         self.selectedMatch = match;
         self.selectedFood = food;

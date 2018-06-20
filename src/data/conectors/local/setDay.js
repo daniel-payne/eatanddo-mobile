@@ -1,4 +1,4 @@
-function storeDay(day) {
+function setDay(day) {
   if (window.localStorage) {
     const isoDate = day.isoDate.substring(0, 10);
 
@@ -13,4 +13,4 @@ function storeDay(day) {
   return Promise.resolve(false);
 }
 
-export default storeDay;
+export default setDay;

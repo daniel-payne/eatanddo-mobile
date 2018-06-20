@@ -11,8 +11,8 @@ import Preference from "./models/Preference";
 import getFoodNames from "./conectors/remote/getFoodNames";
 import getFood from "./conectors/remote/getFood";
 
-import loadDay from "./conectors/local/loadDay";
-import storeDay from "./conectors/local/storeDay";
+import getDay from "./conectors/local/getDay";
+import setDay from "./conectors/local/setDay";
 
 const Store = types
   .model({
@@ -75,18 +75,34 @@ const Store = types
         }
       }
 
-      yield storeDay(day);
+      yield self.storeDay(day);
+    }),
+    storeDay: flow(function* validateEntry(day) {
+      yield setDay(day);
     }),
     chooseSearch: flow(function* chooseSearch(item) {
-      const search = item.search;
+      let search;
+      // let selectedFood;
+      let searchString;
+
+      try {
+        search = item.search;
+      } catch (error) {
+        searchString = item.toJSON().search;
+      }
 
       if (!search) {
         const search = yield store.loadSearch(
-          item.alternativeText || item.foodText
+          searchString || item.alternativeText || item.foodText
         );
+
         item.search = search;
 
-        if (item.search && item.search.matches.length > 0) {
+        if (
+          !item.selectedFood &&
+          item.search &&
+          item.search.matches.length > 0
+        ) {
           const foodId = item.search.matches[0].foodId;
 
           yield self.loadFood(foodId);
@@ -94,6 +110,8 @@ const Store = types
           item.selectedFood = foodId;
         }
       }
+
+      yield self.storeDay(item.meal.day);
     }),
     chooseMatch: flow(function* chooseMatch(entry, match) {
       // self.selectedMatch = match;
@@ -126,7 +144,7 @@ const Store = types
       let day = self.days.find(item => item.isoDate === isoDate);
 
       if (!day) {
-        const data = yield loadDay(isoDate);
+        const data = yield getDay(isoDate);
 
         if (data.meals) {
           for (let i = 0; i < data.meals.length; i++) {

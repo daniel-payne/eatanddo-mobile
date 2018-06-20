@@ -17,6 +17,7 @@ const LineDisplay = props => {
   const { item, no, selectedNutrition, onSelect } = props;
 
   let statusMessage = item.selectedFood ? item.selectedFood.foodName : null;
+  let dataStyle = {};
 
   if (!item.quantity || !item.unit) {
     statusMessage = `How much does ${item.text} weigh`;
@@ -25,7 +26,9 @@ const LineDisplay = props => {
   let result = item.nutritionPerItem(selectedNutrition);
 
   if (result && !Number.isNaN(result)) {
-    if (
+    if (result > 99.9) {
+      result = result.toFixed(0);
+    } else if (
       selectedNutrition === "energyCalories" ||
       selectedNutrition === "energyKiloJoules"
     ) {
@@ -40,6 +43,10 @@ const LineDisplay = props => {
     }
   }
 
+  if (result && result.length > 3) {
+    dataStyle = { fontSize: "smaller" };
+  }
+
   return (
     <ListItem className="LineDisplay" button onClick={onSelect}>
       <Avatar>{no + 1}</Avatar>
@@ -52,7 +59,9 @@ const LineDisplay = props => {
       />
       <ListItemIcon>
         {item.calculationStatus === LINE_CALCULATION_COMPLETE ? (
-          <Avatar className="data-avatar">{result}</Avatar>
+          <Avatar className="data-avatar" style={dataStyle}>
+            {result}
+          </Avatar>
         ) : (
           <ErrorIcon />
         )}

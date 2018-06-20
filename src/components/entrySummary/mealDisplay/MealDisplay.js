@@ -9,7 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import ErrorIcon from "@material-ui/icons/Error";
 
-import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/Entry";
+import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/DayMeal";
 
 import "./MealDisplay.css";
 
@@ -20,15 +20,19 @@ const MealDisplay = props => {
   let mealInformation;
   let mealData;
 
+  let dataStyle = {};
+
   if (meal && meal.mealtime && meal.mealtime.length > 0) {
     mealTitle =
       meal.mealtime.charAt(0).toUpperCase() +
       meal.mealtime.slice(1).toLowerCase();
 
-    let result = meal.nutritionPerEntry(selectedNutrition);
+    let result = meal.nutritionPerMeal(selectedNutrition);
 
     if (result && !Number.isNaN(result)) {
-      if (
+      if (result > 99.9) {
+        result = result.toFixed(0);
+      } else if (
         selectedNutrition === "energyCalories" ||
         selectedNutrition === "energyKiloJoules"
       ) {
@@ -48,13 +52,19 @@ const MealDisplay = props => {
     mealInformation = "Select a mealtime";
   }
 
+  if (mealData && mealData.toString().length > 2) {
+    dataStyle = { fontSize: "smaller" };
+  }
+
   return (
     <ListItem button onClick={onSelect ? onSelect : null}>
       <Avatar>M</Avatar>
       <ListItemText primary={mealTitle} secondary={mealInformation} />
       <ListItemIcon>
         {meal.calculationStatus === ENTRY_CALCULATION_COMPLETE ? (
-          <Avatar className="data-avatar">{mealData}</Avatar>
+          <Avatar className="data-avatar" style={dataStyle}>
+            {mealData}
+          </Avatar>
         ) : (
           <ErrorIcon />
         )}

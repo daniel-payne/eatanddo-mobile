@@ -115,7 +115,6 @@ class WeightDialog extends Component {
           <div>
             <div>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("1")}
@@ -123,7 +122,6 @@ class WeightDialog extends Component {
                 1
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("2")}
@@ -131,7 +129,6 @@ class WeightDialog extends Component {
                 2
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("3")}
@@ -143,7 +140,6 @@ class WeightDialog extends Component {
           <div>
             <div>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("4")}
@@ -151,7 +147,6 @@ class WeightDialog extends Component {
                 4
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("5")}
@@ -159,7 +154,6 @@ class WeightDialog extends Component {
                 5
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("6")}
@@ -171,7 +165,6 @@ class WeightDialog extends Component {
           <div>
             <div>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("7")}
@@ -179,7 +172,6 @@ class WeightDialog extends Component {
                 7
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("8")}
@@ -187,7 +179,6 @@ class WeightDialog extends Component {
                 8
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("9")}
@@ -199,7 +190,6 @@ class WeightDialog extends Component {
           <div>
             <div>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("CLEAR")}
@@ -207,7 +197,6 @@ class WeightDialog extends Component {
                 <ClearAllIcon />
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("0")}
@@ -215,7 +204,6 @@ class WeightDialog extends Component {
                 0
               </Button>
               <Button
-                color="primary"
                 variant="outlined"
                 size={buttonSize}
                 onClick={this.handleUpdate("BACKSPACE")}

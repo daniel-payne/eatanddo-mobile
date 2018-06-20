@@ -24,7 +24,7 @@ import "./MatchesDialog.css";
 
 class MatchesDialog extends Component {
   static propTypes = {
-    entry: PropTypes.object.isRequired,
+    mealItem: PropTypes.object,
 
     onClose: PropTypes.func.isRequired
   };

@@ -1,4 +1,4 @@
-function loadDay(isoDate) {
+function getDay(isoDate) {
   if (window.localStorage) {
     const match = isoDate.substring(0, 10);
 
@@ -12,4 +12,4 @@ function loadDay(isoDate) {
   return Promise.resolve({ isoDate });
 }
 
-export default loadDay;
+export default getDay;
