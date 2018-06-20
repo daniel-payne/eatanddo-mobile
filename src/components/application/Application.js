@@ -20,7 +20,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuIcon from "@material-ui/icons/Menu";
 import MicrophoneIcon from "@material-ui/icons/Mic";
 
-import EntrySummary from "../entrySummary/EntrySummary";
+// import EntrySummary from "../entrySummary/EntrySummary";
+import MealSummary from "../entrySummary/MealSummary";
 
 import SettingsDrawer from "./settingsDrawer/SettingsDrawer";
 import Title from "./title/Title";
@@ -52,7 +53,7 @@ class Application extends Component {
     const { handleOpenDraw, handleCloseDraw, handleCloseLogin } = this;
     const { isDrawOpen, isLoginOpen } = this.state;
     const { store } = this.props;
-    const { entry, display } = store;
+    const { meal, preference } = store;
 
     return (
       <div className="Application">
@@ -83,7 +84,7 @@ class Application extends Component {
               <SettingsDrawer
                 isOpen={isDrawOpen}
                 onClose={handleCloseDraw}
-                display={display}
+                preference={preference}
               />
             </AppBar>
             <Dialog
@@ -131,7 +132,7 @@ class Application extends Component {
                   <Route
                     path="/"
                     render={() => (
-                      <EntrySummary entry={entry} display={display} />
+                      <MealSummary meal={meal} preference={preference} />
                     )}
                   />
                 )}
@@ -139,7 +140,9 @@ class Application extends Component {
 
               <Route
                 path="/"
-                render={() => <EntrySummary entry={entry} display={display} />}
+                render={() => (
+                  <MealSummary meal={meal} preference={preference} />
+                )}
               />
             </Switch>
           </React.Fragment>

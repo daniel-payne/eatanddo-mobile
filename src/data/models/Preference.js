@@ -46,7 +46,7 @@ export const US_DATA = "fcd usda";
 
 export const SOURCES = [UK_DATA, US_DATA];
 
-const Display = types
+const Preference = types
   .model({
     selectedDay: types.maybe(types.reference(Day)),
     selectedMeal: types.maybe(types.reference(DayMeal)),
@@ -72,4 +72,4 @@ const Display = types
     }
   }));
 
-export default Display;
+export default Preference;

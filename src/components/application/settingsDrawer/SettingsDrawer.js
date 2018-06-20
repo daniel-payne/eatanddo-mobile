@@ -32,11 +32,11 @@ import {
   // ALCOHOL,
   UK_DATA,
   US_DATA
-} from "data/models/Display";
+} from "data/models/Preference";
 
 class SettingsDrawer extends Component {
   static propTypes = {
-    display: PropTypes.object,
+    preferences: PropTypes.object,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func
   };
@@ -67,14 +67,10 @@ class SettingsDrawer extends Component {
   ];
 
   handleSelectNutrition = choice => () => {
-    const { display } = this.props;
-
-    display.updateNutrition(choice);
+    this.props.preference.chooseNutrition(choice);
   };
   handleSelectSource = choice => () => {
-    const { display } = this.props;
-
-    display.updateSource(choice);
+    this.props.preference.chooseSource(choice);
   };
 
   SettingsOption = props => {
@@ -98,8 +94,8 @@ class SettingsDrawer extends Component {
   render() {
     const { NUTRITION_OPTIONS, SOURCE_OPTIONS } = SettingsDrawer;
     const { SettingsOption, handleSelectNutrition, handleSelectSource } = this;
-    const { display, isOpen, onClose } = this.props;
-    const { selectedNutrition, selectedSource } = display || {};
+    const { preference, isOpen, onClose } = this.props;
+    const { selectedNutrition, selectedSource } = preference || {};
 
     return (
       <Drawer
