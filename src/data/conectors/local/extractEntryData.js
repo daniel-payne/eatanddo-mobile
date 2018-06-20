@@ -112,7 +112,7 @@ function extractLinesFromData(input) {
   let quantity = "";
   let isQuantity;
   let unit = "";
-  let foodName = "";
+  let foodText = "";
   let saveNewItem = false;
   let firstWord;
 
@@ -138,9 +138,9 @@ function extractLinesFromData(input) {
     }
 
     if (saveNewItem === true) {
-      foodName = text.replace(quantity, "");
+      foodText = text.replace(quantity, "");
 
-      const matches = foodName.trim().match(/^([\w-]+)/gm);
+      const matches = foodText.trim().match(/^([\w-]+)/gm);
 
       if (matches && matches.length > -1) {
         firstWord = matches[0];
@@ -150,17 +150,17 @@ function extractLinesFromData(input) {
         if (item.word === firstWord) {
           unit = item.replace;
 
-          foodName = foodName.replace(firstWord, "").trim();
+          foodText = foodText.replace(firstWord, "").trim();
 
           return true;
         }
         return false;
       });
 
-      foodName = foodName.trim();
-      foodName = foodName.replace(/^of\s+/gm, "");
-      foodName = foodName.replace(/^a\s+/gm, "");
-      foodName = foodName.replace(/\s+and$/gm, "");
+      foodText = foodText.trim();
+      foodText = foodText.replace(/^of\s+/gm, "");
+      foodText = foodText.replace(/^a\s+/gm, "");
+      foodText = foodText.replace(/\s+and$/gm, "");
 
       text = text.trim();
       text = text.replace(/\s+and$/gm, "");
@@ -171,9 +171,12 @@ function extractLinesFromData(input) {
 
       const newItem = {
         text,
+
         quantity: +quantity,
         unit,
-        foodName
+
+        amountText: quantity + unit + " " + foodText,
+        foodText
       };
 
       output.push(newItem);
@@ -181,7 +184,7 @@ function extractLinesFromData(input) {
       text = item;
       quantity = "";
       unit = "";
-      foodName = "";
+      foodText = "";
       saveNewItem = false;
 
       quantity = isQuantity === true ? item : "";

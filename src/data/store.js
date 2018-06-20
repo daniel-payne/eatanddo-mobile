@@ -10,7 +10,9 @@ import Preference from "./models/Preference";
 
 import getFoodNames from "./conectors/remote/getFoodNames";
 import getFood from "./conectors/remote/getFood";
+
 import loadDay from "./conectors/local/loadDay";
+import storeDay from "./conectors/local/storeDay";
 
 const Store = types
   .model({
@@ -57,10 +59,67 @@ const Store = types
   }))
   .actions(self => ({
     validateDay: flow(function* validateEntry(day) {
-      //   for (let i = 0; i < self.entry.lines.length; i++) {
-      //     const line = self.entry.lines[i];
-      //     yield line.chooseMatch(line.selectedMatch);
+      if (!day) {
+        return;
+      }
+
+      for (let i = 0; i < day.meals.length; i++) {
+        let meal = day.meals[i];
+
+        for (let j = 0; j < meal.items.length; j++) {
+          const item = meal.items[j];
+
+          if (item.selectedFood === null) {
+            yield self.chooseSearch(item);
+          }
+        }
+      }
+
+      yield storeDay(day);
+    }),
+    chooseSearch: flow(function* chooseSearch(item) {
+      const search = item.search;
+
+      if (!search) {
+        const search = yield store.loadSearch(
+          item.alternativeText || item.foodText
+        );
+        item.search = search;
+
+        if (item.search && item.search.matches.length > 0) {
+          const foodId = item.search.matches[0].foodId;
+
+          yield self.loadFood(foodId);
+
+          item.selectedFood = foodId;
+        }
+      }
+    }),
+    chooseMatch: flow(function* chooseMatch(entry, match) {
+      // self.selectedMatch = match;
+      // if (match) {
+      //   postSearchUsed(match.searchId, match.foodId, self.search.text);
+      // }
+      // if (!match) {
+      //   if (!self.search) {
+      //     const search = yield store.loadSearch(
+      //       self.alternativeFoodName || self.foodName
+      //     );
+      //     self.search = search;
       //   }
+      //   if (self.search && self.search.matches.length > 0) {
+      //     self.selectedMatch = self.search.matches[0];
+      //   }
+      // } else {
+      //   self.selectedMatch = self.search
+      //     ? self.search.matches.find(item => item.foodId === match.foodId)
+      //     : null;
+      // }
+      // if (self.selectedMatch) {
+      //   const food = yield store.loadFood(self.selectedMatch.foodId);
+      //   self.selectedFood = food;
+      //   return food;
+      // }
     }),
     loadDiary: flow(function* loadSearch(isoDate, mealtime) {
       let meal;
@@ -68,6 +127,20 @@ const Store = types
 
       if (!day) {
         const data = yield loadDay(isoDate);
+
+        if (data.meals) {
+          for (let i = 0; i < data.meals.length; i++) {
+            let meal = data.meals[i];
+
+            for (let j = 0; j < meal.items.length; j++) {
+              const item = meal.items[j];
+
+              if (item.selectedFood) {
+                yield self.loadFood(item.selectedFood);
+              }
+            }
+          }
+        }
 
         day = Day.create(data);
 
@@ -78,6 +151,8 @@ const Store = types
 
       self.chooseDay(day);
       self.chooseMeal(meal);
+
+      self.validateDay(day);
     }),
     loadSearch: flow(function* loadSearch(match) {
       let search = self.searches.find(item => item.text === match);

@@ -1,6 +1,8 @@
 function loadDay(isoDate) {
   if (window.localStorage) {
-    const result = window.localStorage.getItem(`day[${isoDate}]`);
+    const match = isoDate.substring(0, 10);
+
+    const result = window.localStorage.getItem(`day[${match}]`);
 
     if (result) {
       return Promise.resolve(JSON.parse(result));
