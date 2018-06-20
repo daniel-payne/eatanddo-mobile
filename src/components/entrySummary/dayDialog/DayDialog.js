@@ -17,7 +17,7 @@ import "./DayDialog.css";
 
 class DayDialog extends Component {
   static propTypes = {
-    entry: PropTypes.object.isRequired,
+    day: PropTypes.object.isRequired,
 
     onClose: PropTypes.func.isRequired
   };
@@ -26,7 +26,7 @@ class DayDialog extends Component {
     this.props.onClose();
   };
   handelUpdate = selection => () => {
-    const { entry } = this.props;
+    const { day } = this.props;
 
     const now = new Date();
 
@@ -43,7 +43,7 @@ class DayDialog extends Component {
       dayDate = YESTERDAYS_DATE;
     }
 
-    entry.updateDay(dayDate);
+    day.store.loadDiary(dayDate);
 
     this.handelDone();
   };

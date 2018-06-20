@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 // import { withRouter } from "react-router";
 import { observer } from "mobx-react";
 
@@ -26,13 +26,20 @@ import Avatar from "@material-ui/core/Avatar";
 import "./MealDialog.css";
 
 class MealDialog extends Component {
+  static propTypes = {
+    meal: PropTypes.object,
+    isOpen: PropTypes.bool,
+
+    onClose: PropTypes.func
+  };
+
   handelDone = () => {
     this.props.onClose();
   };
   handelUpdate = selection => () => {
-    const { entry } = this.props;
+    const { meal } = this.props;
 
-    entry.updateMealtime(selection);
+    meal.day.store.chooseMealtime(selection.toUpperCase());
 
     this.handelDone();
   };

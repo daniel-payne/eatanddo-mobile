@@ -14,15 +14,18 @@ import { CALCULATION_COMPLETE as ENTRY_CALCULATION_COMPLETE } from "data/models/
 import "./MealDisplay.css";
 
 const MealDisplay = props => {
-  const { entry, selectedNutrition, onSelect } = props;
+  const { meal, selectedNutrition, onSelect } = props;
 
   let mealTitle;
   let mealInformation;
   let mealData;
 
-  if (entry && entry.mealtime && entry.mealtime.length > 0) {
-    mealTitle = entry.mealtime;
-    let result = entry.nutritionPerEntry(selectedNutrition);
+  if (meal && meal.mealtime && meal.mealtime.length > 0) {
+    mealTitle =
+      meal.mealtime.charAt(0).toUpperCase() +
+      meal.mealtime.slice(1).toLowerCase();
+
+    let result = meal.nutritionPerEntry(selectedNutrition);
 
     if (result && !Number.isNaN(result)) {
       if (
@@ -50,7 +53,7 @@ const MealDisplay = props => {
       <Avatar>M</Avatar>
       <ListItemText primary={mealTitle} secondary={mealInformation} />
       <ListItemIcon>
-        {entry.calculationStatus === ENTRY_CALCULATION_COMPLETE ? (
+        {meal.calculationStatus === ENTRY_CALCULATION_COMPLETE ? (
           <Avatar className="data-avatar">{mealData}</Avatar>
         ) : (
           <ErrorIcon />

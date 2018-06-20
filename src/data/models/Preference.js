@@ -1,8 +1,5 @@
 import { types } from "mobx-state-tree";
 
-import Day from "./Day";
-import DayMeal from "./DayMeal";
-
 export const CALORIES = "energyCalories";
 export const KILOJOULES = "energyKiloJoules";
 export const PROTEIN = "proteinGrams";
@@ -48,8 +45,6 @@ export const SOURCES = [UK_DATA, US_DATA];
 
 const Preference = types
   .model({
-    selectedDay: types.maybe(types.reference(Day)),
-    selectedMeal: types.maybe(types.reference(DayMeal)),
     selectedNutrition: types.optional(
       types.enumeration("NutritionStates", NUTRITIONS),
       CALORIES
@@ -65,10 +60,6 @@ const Preference = types
     },
     chooseSource(source) {
       self.selectedSource = source;
-    },
-    chooseDiary(day, meal) {
-      self.selectedDay = day;
-      self.selectedMeal = meal || day.meals[0];
     }
   }));
 

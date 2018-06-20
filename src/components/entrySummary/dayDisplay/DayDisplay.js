@@ -9,14 +9,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import "./DayDisplay.css";
 
 const DayDisplay = props => {
-  const { entry, onSelect } = props;
+  const { day, onSelect } = props;
 
   let dayTitle;
   let dayInformation;
 
-  if (entry.dayDate) {
+  if (day && day.isoDate) {
     const now = new Date();
-    const entryDate = new Date(entry.dayDate);
+    const entryDate = new Date(day.isoDate);
 
     const ENTRYS_DATE = entryDate.toISOString().substr(0, 10);
     const TODAYS_DATE = now.toISOString().substr(0, 10);
@@ -31,7 +31,7 @@ const DayDisplay = props => {
       dayTitle = "Yesterday";
       dayInformation = entryDate.toDateString();
     } else {
-      dayTitle = entry.dayDate.toDateString();
+      dayTitle = entryDate.toDateString();
 
       dayInformation = dayTitle.substr(4);
       dayTitle = dayTitle.substr(0, 3);
@@ -53,7 +53,7 @@ const DayDisplay = props => {
 };
 
 DayDisplay.propTypes = {
-  entry: PropTypes.object.isRequired,
+  day: PropTypes.object.isRequired,
 
   onSelect: PropTypes.func.isRequired
 };

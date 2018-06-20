@@ -1,9 +1,9 @@
 import store from "./store";
 
-function mockFetch(url, data) {
+function mockFetch(status, data) {
   return jest.fn().mockImplementation(() => {
     return Promise.resolve({
-      status: 200,
+      status,
       json: () => data
     });
   });
@@ -14,7 +14,7 @@ it("store is created", () => {
 });
 
 it("mock food is loaded", done => {
-  window.fetch = mockFetch(null, [{ foodId: 1, foodName: "Food 1" }]);
+  window.fetch = mockFetch(200, [{ foodId: 1, foodName: "Food 1" }]);
 
   store.loadFood(1).then(() => {
     expect(store.foods.length).toBe(1);

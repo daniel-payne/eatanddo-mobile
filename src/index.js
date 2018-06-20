@@ -29,6 +29,10 @@ const App = () => (
   </Provider>
 );
 
+const isoDate = new Date().toISOString();
+
+store.loadDiary(isoDate);
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

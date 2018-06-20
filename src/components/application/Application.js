@@ -53,7 +53,7 @@ class Application extends Component {
     const { handleOpenDraw, handleCloseDraw, handleCloseLogin } = this;
     const { isDrawOpen, isLoginOpen } = this.state;
     const { store } = this.props;
-    const { meal, preference } = store;
+    const { selectedMeal, preference } = store;
 
     return (
       <div className="Application">
@@ -132,7 +132,10 @@ class Application extends Component {
                   <Route
                     path="/"
                     render={() => (
-                      <MealSummary meal={meal} preference={preference} />
+                      <MealSummary
+                        meal={selectedMeal}
+                        preference={preference}
+                      />
                     )}
                   />
                 )}
@@ -141,7 +144,7 @@ class Application extends Component {
               <Route
                 path="/"
                 render={() => (
-                  <MealSummary meal={meal} preference={preference} />
+                  <MealSummary meal={selectedMeal} preference={preference} />
                 )}
               />
             </Switch>

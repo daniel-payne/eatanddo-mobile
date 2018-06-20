@@ -26,8 +26,8 @@ import "./MealSummary.css";
 
 class MealSummary extends Component {
   static propTypes = {
-    entry: PropTypes.object,
-    display: PropTypes.object
+    meal: PropTypes.object,
+    preference: PropTypes.object
   };
 
   state = {
@@ -76,7 +76,7 @@ class MealSummary extends Component {
       handleClose,
       handleDelete
     } = this;
-    const { entry, display } = this.props;
+    const { meal, preference } = this.props;
     const {
       isAmountSelectorOpen,
       isMatchSelectorOpen,
@@ -86,9 +86,10 @@ class MealSummary extends Component {
       isMealSelectorOpen,
       selectedLine
     } = this.state;
-    const { selectedNutrition } = display || {};
+    const { selectedNutrition } = preference || {};
+    const { day } = meal || {};
 
-    if (!entry) {
+    if (!meal) {
       return null;
     }
 
@@ -112,20 +113,19 @@ class MealSummary extends Component {
         >
           <MicrophoneIcon />
         </Button>
-
         <List>
-          <DayDisplay entry={entry} onSelect={handleDaySelect} />
+          <DayDisplay day={day} onSelect={handleDaySelect} />
           <MealDisplay
-            entry={entry}
+            meal={meal}
             onSelect={handleMealSelect}
             selectedNutrition={selectedNutrition}
           />
           <Divider />
 
-          <LineCreator entry={entry} />
+          {/* <LineCreator meal={meal} /> */}
           <Divider />
 
-          {entry.lines.map((item, i) => (
+          {/* {meal.items.map((item, i) => (
             <LineDisplay
               item={item}
               no={i}
@@ -133,18 +133,17 @@ class MealSummary extends Component {
               key={i}
               selectedNutrition={selectedNutrition}
             />
-          ))}
+          ))} */}
         </List>
 
-        <div style={{ height: 56 }} />
+        <div className="bottom-seperator" />
 
-        <WeightDialog
+        {/* <WeightDialog
           isOpen={isAmountSelectorOpen}
           onClose={handleClose("isAmountSelectorOpen")}
           mealItem={selectedLine}
-        />
-
-        <MatchesDialog
+        /> */}
+        {/* <MatchesDialog
           isOpen={isMatchSelectorOpen}
           onClose={handleClose("isMatchSelectorOpen")}
           mealItem={selectedLine}
@@ -153,31 +152,27 @@ class MealSummary extends Component {
               ? selectedLine.search.isAllMatches
               : null
           }
-        />
-
-        <ChoiceDialog
+        /> */}
+        {/* <ChoiceDialog
           isOpen={isChoiceSelectorOpen}
           onClose={handleClose("isChoiceSelectorOpen")}
           onOpenChoice={handleOpen}
           onDeleteChoice={handleDelete}
-        />
-
-        <ScratchPadDialog
+        /> */}
+        {/* <ScratchPadDialog
           isOpen={isScratchPadOpen}
           onClose={handleClose("isScratchPadOpen")}
-          entry={entry}
-        />
-
+          meal={meal}
+        /> */}
         <DayDialog
           isOpen={isDaySelectorOpen}
           onClose={handleClose("isDaySelectorOpen")}
-          entry={entry}
+          day={day}
         />
-
         <MealDialog
           isOpen={isMealSelectorOpen}
           onClose={handleClose("isMealSelectorOpen")}
-          entry={entry}
+          meal={meal}
         />
       </div>
     );

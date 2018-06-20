@@ -2,6 +2,7 @@ import { types, flow } from "mobx-state-tree";
 import makeInspectable from "mobx-devtools-mst";
 
 import Day from "./models/Day";
+import DayMeal from "./models/DayMeal";
 import Food from "./models/Food";
 import Search from "./models/Search";
 
@@ -17,8 +18,43 @@ const Store = types
     foods: types.optional(types.array(Food), []),
     searches: types.optional(types.array(Search), []),
 
+    selectedDay: types.maybe(types.reference(Day)),
+    selectedMeal: types.maybe(types.reference(DayMeal)),
+
     preference: types.optional(Preference, {})
   })
+  .actions(self => ({
+    chooseDay(day) {
+      self.selectedDay = day;
+
+      if (self.selectedMeal) {
+        self.selectedMeal = day.meals.find(
+          item => item.mealtime === self.selectedMeal.mealtime
+        );
+      }
+
+      if (!self.selectedMeal) {
+        self.selectedMeal = day.meals[0];
+      }
+    },
+    chooseMeal(meal) {
+      if (meal) {
+        self.selectedMeal = meal;
+      } else if (self.selectedDay) {
+        self.selectedMeal = self.selectedDay.meals[0];
+      }
+    },
+    chooseMealtime(mealtime) {
+      if (mealtime && self.selectedDay) {
+        let newSelectedMeal = self.selectedDay.meals.find(
+          meal => meal.mealtime === mealtime
+        );
+        if (newSelectedMeal) {
+          self.selectedMeal = newSelectedMeal;
+        }
+      }
+    }
+  }))
   .actions(self => ({
     // validateEntry: flow(function* validateEntry(entry) {
     //   for (let i = 0; i < self.entry.lines.length; i++) {
@@ -41,7 +77,8 @@ const Store = types
 
       meal = day.meals.find(item => item.mealtime === mealtime);
 
-      self.display.chooseDiary(day, meal);
+      self.chooseDay(day);
+      self.chooseMeal(meal);
     }),
     loadSearch: flow(function* loadSearch(match) {
       let search = self.searches.find(item => item.text === match);
