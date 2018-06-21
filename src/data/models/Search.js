@@ -6,7 +6,10 @@ import getFoodNames from "../conectors/remote/getFoodNames";
 
 const Search = types
   .model({
-    text: types.identifier(types.string),
+    reference: types.identifier(types.string),
+
+    text: types.string,
+    source: types.string,
 
     isAllMatches: types.optional(types.boolean, false),
 
@@ -14,7 +17,7 @@ const Search = types
   })
   .actions(self => ({
     loadAllMatches: flow(function* loadAllMatches() {
-      const data = yield getFoodNames(self.text, 999, false);
+      const data = yield getFoodNames(self.source, self.text, 999, false);
 
       self.isAllMatches = true;
 

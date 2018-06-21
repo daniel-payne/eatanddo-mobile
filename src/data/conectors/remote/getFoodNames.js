@@ -1,6 +1,7 @@
-function getFoodNames(match, count = 10, useCache = true) {
+function getFoodNames(source, match, count = 10, useCache = true) {
   if (useCache === true && window.localStorage) {
-    const result = window.localStorage.getItem(`search[${match}]`);
+    const result = window.localStorage.getItem(`search[${source},
+      ${match}]`);
 
     if (result) {
       return Promise.resolve(JSON.parse(result));
@@ -10,7 +11,7 @@ function getFoodNames(match, count = 10, useCache = true) {
   return fetch(
     `${
       process.env.REACT_APP_REST_ENDPOINT
-    }/search/foodnames?match=${match}&count=${count}`
+    }/search/foodnames?match=${match}&count=${count}&sources=${source}`
   )
     .then(response => {
       if (response.status !== 200) {
@@ -34,7 +35,10 @@ function getFoodNames(match, count = 10, useCache = true) {
     })
     .then(result => {
       if (window.localStorage && result) {
-        window.localStorage.setItem(`search[${match}]`, JSON.stringify(result));
+        window.localStorage.setItem(
+          `search[${source},${match}]`,
+          JSON.stringify(result)
+        );
       }
 
       return result;

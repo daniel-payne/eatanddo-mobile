@@ -114,12 +114,20 @@ const Store = types
       self.validateDay(day);
     }),
     loadSearch: flow(function* loadSearch(match) {
-      let search = self.searches.find(item => item.text === match);
+      let source = self.preference.selectedSource;
+      let search = self.searches.find(
+        item => item.text === match && item.source === source
+      );
 
       if (!search) {
-        const data = yield getFoodNames(match);
+        const data = yield getFoodNames(source, match);
 
-        search = Search.create({ text: match, matches: data });
+        search = Search.create({
+          reference: `${match},${source}`,
+          text: match,
+          source,
+          matches: data
+        });
 
         self.searches.push(search);
       }
