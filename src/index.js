@@ -6,7 +6,9 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import amber from "@material-ui/core/colors/amber";
 import teal from "@material-ui/core/colors/teal";
 
-import registerServiceWorker from "./registerServiceWorker";
+import getVersion from "./data/conectors/remote/getVersion";
+
+import registerServiceWorker, { unregister } from "./registerServiceWorker";
 
 import Application from "./components/application/Application";
 
@@ -40,4 +42,15 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-registerServiceWorker();
+getVersion().then(data => {
+  if (data.clientVersion !== process.env.REACT_APP_VERSION) {
+    registerServiceWorker();
+  } else {
+    console.log(
+      `UPDATING version ${process.env.REACT_APP_VERSION} to ${
+        data.clientVersion
+      }`
+    );
+    unregister();
+  }
+});
