@@ -32,14 +32,18 @@ class MatchesDialog extends Component {
   state = {
     searchFor: ""
   };
-  static getDerivedStateFromProps = (props, state) => {
-    if (!state.searchFor) {
-      return {
-        searchFor: props.mealItem ? props.mealItem.foodName : undefined
-      };
-    }
-    return null;
-  };
+  // static getDerivedStateFromProps = (props, state) => {
+  //   if (state.searchFor === null) {
+  //     console.log(state.searchFor);
+  //     return {
+  //       searchFor:
+  //         props.mealItem && props.mealItem.selectedFood
+  //           ? props.mealItem.selectedFood.foodName
+  //           : ""
+  //     };
+  //   }
+  //   return null;
+  // };
 
   Transition = props => {
     return <Slide direction="up" {...props} />;
@@ -72,12 +76,22 @@ class MatchesDialog extends Component {
   handelDone = () => {
     this.props.onClose();
   };
+  handleEntering = () => {
+    const { mealItem } = this.props;
+    const { selectedFood } = mealItem || {};
+
+    this.setState({
+      searchFor: mealItem && selectedFood ? selectedFood.foodName : ""
+    });
+  };
 
   render = () => {
-    const { Transition } = this;
+    const { Transition, handleEntering } = this;
     const { mealItem, isOpen, onClose } = this.props;
     const { text, search } = mealItem || {};
     const { matches, isAllMatches } = search || {};
+
+    const showMore = matches && matches.length > 9 ? true : false;
 
     return (
       <Dialog
@@ -85,6 +99,7 @@ class MatchesDialog extends Component {
         fullScreen
         open={isOpen}
         onClose={onClose}
+        onEntering={handleEntering}
         TransitionComponent={Transition}
       >
         <AppBar className="title_bar">
@@ -138,12 +153,13 @@ class MatchesDialog extends Component {
           </List>
         )}
 
-        {isAllMatches === false && (
-          <React.Fragment>
-            <Divider />
-            <Button onClick={this.handleShowMore}>Show More</Button>
-          </React.Fragment>
-        )}
+        {isAllMatches === false &&
+          showMore === true && (
+            <React.Fragment>
+              <Divider />
+              <Button onClick={this.handleShowMore}>Show More</Button>
+            </React.Fragment>
+          )}
       </Dialog>
     );
   };

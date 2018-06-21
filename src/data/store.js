@@ -127,7 +127,7 @@ const Store = types
       return search;
     }),
     loadFood: flow(function* loadFood(foodId) {
-      let food = self.foods.find(item => item.fooId === foodId);
+      let food = self.foods.find(item => item.foodId === foodId);
 
       if (!food) {
         const data = yield getFood(foodId);
