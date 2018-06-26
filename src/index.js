@@ -14,6 +14,8 @@ import Application from "./components/application/Application";
 
 import store from "./data/store";
 
+import { BREAKFAST, LUNCH, DINNER, SNACKS } from "./data/models/Day";
+
 import "./index.css";
 
 const theme = createMuiTheme({
@@ -31,9 +33,21 @@ const App = () => (
   </Provider>
 );
 
-const isoDate = new Date().toISOString();
+const now = new Date();
+const isoDate = now.toISOString();
+const timeOfDay = now.getHours();
 
-store.loadDiary(isoDate);
+let mealtime = SNACKS;
+
+if (timeOfDay < 12) {
+  mealtime = BREAKFAST;
+} else if (timeOfDay < 15) {
+  mealtime = LUNCH;
+} else if (timeOfDay > 18 && timeOfDay < 22) {
+  mealtime = DINNER;
+}
+
+store.loadDiary(isoDate, mealtime);
 
 ReactDOM.render(
   <Provider store={store}>

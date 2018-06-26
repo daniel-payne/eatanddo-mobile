@@ -5,15 +5,22 @@ import DayMeal from "./DayMeal";
 export const CALCULATION_INCOMPLETE = "CALCULATION_INCOMPLETE";
 export const CALCULATION_COMPLETE = "CALCULATION_COMPLETE";
 
+export const BREAKFAST = "BREAKFAST";
+export const LUNCH = "LUNCH";
+export const DINNER = "DINNER";
+export const SNACKS = "SNACKS";
+
+export const MEALTIMES = [BREAKFAST, LUNCH, DINNER, SNACKS];
+
 const Day = types
   .model({
     isoDate: types.identifier(types.string),
 
     meals: types.optional(types.array(DayMeal), [
-      { mealtime: "BREAKFAST" },
-      { mealtime: "LUNCH" },
-      { mealtime: "DINNER" },
-      { mealtime: "SNACKS" }
+      { mealtime: BREAKFAST },
+      { mealtime: LUNCH },
+      { mealtime: DINNER },
+      { mealtime: SNACKS }
     ])
   })
   .views(self => {
